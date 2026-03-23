@@ -1,94 +1,116 @@
-//
-//  RealityCheckWidget.swift
-//  RealityCheckWidget
-//
-//  Created by Nguyễn Hồng Quân on 23/3/26.
-//
-
 import WidgetKit
 import SwiftUI
+import SwiftData
 
-struct Provider: AppIntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
-    }
-
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
-    }
-    
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        return Timeline(entries: entries, policy: .atEnd)
-    }
-
-//    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
-}
-
-struct SimpleEntry: TimelineEntry {
+struct RealityCheckEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let displayValue: String
+    let unit: String
+    let contextLine: String
+    let hasCard: Bool
 }
 
-struct RealityCheckWidgetEntryView : View {
-    var entry: Provider.Entry
-    @Environment(\.levelOfDetail) var levelOfDetail: LevelOfDetail
+struct RealityCheckProvider: TimelineProvider {
+    private var modelContext: ModelContext {
+        let container = try! ModelContainer(
+            for: RealityCard.self,
+            configurations: AppGroupContainer.modelConfiguration
+        )
+        return ModelContext(container)
+    }
+
+    func placeholder(in context: Context) -> RealityCheckEntry {
+        RealityCheckEntry(
+            date: Date(),
+            displayValue: "47",
+            unit: "ngày",
+            contextLine: "runway nếu nghỉ việc hôm nay",
+            hasCard: true
+        )
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (RealityCheckEntry) -> Void) {
+        completion(fetchEntry())
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<RealityCheckEntry>) -> Void) {
+        let entry = fetchEntry()
+        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: Date())!
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
+    }
+
+    private func fetchEntry() -> RealityCheckEntry {
+        let descriptor = FetchDescriptor<RealityCard>(
+            predicate: #Predicate { $0.isPinned == true }
+        )
+        guard let card = try? modelContext.fetch(descriptor).first else {
+            return RealityCheckEntry(
+                date: Date(),
+                displayValue: "--",
+                unit: "",
+                contextLine: "Mở app để tạo Reality Card đầu tiên",
+                hasCard: false
+            )
+        }
+        return RealityCheckEntry(
+            date: Date(),
+            displayValue: FormulaEngine.displayValue(for: card),
+            unit: card.unit,
+            contextLine: card.contextLine,
+            hasCard: true
+        )
+    }
+}
+
+struct RealityCheckWidgetView: View {
+    let entry: RealityCheckEntry
 
     var body: some View {
-        switch levelOfDetail {
-        case .simplified:
-            VStack {
-                Text(entry.date, style: .time)
-
-                Text(entry.configuration.favoriteEmoji)
+        if entry.hasCard {
+            VStack(spacing: 2) {
+                Text(entry.displayValue)
+                    .font(.system(size: 42, weight: .heavy))
+                    .foregroundStyle(Color(red: 1, green: 0.267, blue: 0.267))
+                    .minimumScaleFactor(0.5)
+                Text(entry.unit.uppercased())
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(.secondary)
+                    .tracking(1)
+                Text(entry.contextLine)
+                    .font(.system(size: 10))
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.top, 2)
             }
-        default:
-            VStack {
-                Text("Time:")
-                Text(entry.date, style: .time)
-
-                Text("Favorite Emoji:")
-                Text(entry.configuration.favoriteEmoji)
+            .padding(12)
+        } else {
+            VStack(spacing: 8) {
+                Image(systemName: "plus.rectangle.on.rectangle")
+                    .font(.title2)
+                    .foregroundStyle(.secondary)
+                Text(entry.contextLine)
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
             }
+            .padding(12)
         }
     }
 }
 
-struct RealityCheckWidget: Widget {
-    let kind: String = "RealityCheckWidget"
+@main
+struct RealityCheckWidgetBundle: Widget {
+    let kind = "RealityCheckWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
-            RealityCheckWidgetEntryView(entry: entry)
-                .containerBackground(.white.gradient, for: .widget)
+        StaticConfiguration(kind: kind, provider: RealityCheckProvider()) { entry in
+            RealityCheckWidgetView(entry: entry)
+                .containerBackground(.black, for: .widget)
         }
+        .configurationDisplayName("Reality Check")
+        .description("Hiện Reality Card trên home screen")
         .supportedFamilies([.systemSmall])
-        .supportedMountingStyles([.elevated])
-        .widgetTexture(.paper)
-    }
-}
-
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
     }
 }
