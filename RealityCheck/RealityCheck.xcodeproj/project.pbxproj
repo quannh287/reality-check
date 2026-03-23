@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5A90770B2F7142230026035B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A90770A2F7142230026035B /* WidgetKit.framework */; };
+		5A90770D2F7142230026035B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A90770C2F7142230026035B /* SwiftUI.framework */; };
+		5A90771A2F7142240026035B /* RealityCheckWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5A9077082F7142230026035B /* RealityCheckWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		5A9076DA2F7141AA0026035B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,13 +27,47 @@
 			remoteGlobalIDString = 5A9076C92F7141A80026035B;
 			remoteInfo = RealityCheck;
 		};
+		5A9077182F7142240026035B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A9076C22F7141A80026035B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A9077072F7142230026035B;
+			remoteInfo = RealityCheckWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5A90771B2F7142240026035B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5A90771A2F7142240026035B /* RealityCheckWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5A9076CA2F7141A80026035B /* RealityCheck.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealityCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A9076D92F7141AA0026035B /* RealityCheckTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RealityCheckTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A9076E32F7141AA0026035B /* RealityCheckUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RealityCheckUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A9077082F7142230026035B /* RealityCheckWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RealityCheckWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A90770A2F7142230026035B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		5A90770C2F7142230026035B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5A90771E2F7142240026035B /* Exceptions for "RealityCheckWidget" folder in "RealityCheckWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5A9077072F7142230026035B /* RealityCheckWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5A9076CC2F7141A80026035B /* RealityCheck */ = {
@@ -43,6 +83,14 @@
 		5A9076E62F7141AA0026035B /* RealityCheckUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = RealityCheckUITests;
+			sourceTree = "<group>";
+		};
+		5A90770E2F7142230026035B /* RealityCheckWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5A90771E2F7142240026035B /* Exceptions for "RealityCheckWidget" folder in "RealityCheckWidgetExtension" target */,
+			);
+			path = RealityCheckWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +117,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5A9077052F7142230026035B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A90770D2F7142230026035B /* SwiftUI.framework in Frameworks */,
+				5A90770B2F7142230026035B /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +135,8 @@
 				5A9076CC2F7141A80026035B /* RealityCheck */,
 				5A9076DC2F7141AA0026035B /* RealityCheckTests */,
 				5A9076E62F7141AA0026035B /* RealityCheckUITests */,
+				5A90770E2F7142230026035B /* RealityCheckWidget */,
+				5A9077092F7142230026035B /* Frameworks */,
 				5A9076CB2F7141A80026035B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +147,18 @@
 				5A9076CA2F7141A80026035B /* RealityCheck.app */,
 				5A9076D92F7141AA0026035B /* RealityCheckTests.xctest */,
 				5A9076E32F7141AA0026035B /* RealityCheckUITests.xctest */,
+				5A9077082F7142230026035B /* RealityCheckWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5A9077092F7142230026035B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5A90770A2F7142230026035B /* WidgetKit.framework */,
+				5A90770C2F7142230026035B /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,10 +171,12 @@
 				5A9076C62F7141A80026035B /* Sources */,
 				5A9076C72F7141A80026035B /* Frameworks */,
 				5A9076C82F7141A80026035B /* Resources */,
+				5A90771B2F7142240026035B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5A9077192F7142240026035B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				5A9076CC2F7141A80026035B /* RealityCheck */,
@@ -163,6 +234,28 @@
 			productReference = 5A9076E32F7141AA0026035B /* RealityCheckUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		5A9077072F7142230026035B /* RealityCheckWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A90771F2F7142240026035B /* Build configuration list for PBXNativeTarget "RealityCheckWidgetExtension" */;
+			buildPhases = (
+				5A9077042F7142230026035B /* Sources */,
+				5A9077052F7142230026035B /* Frameworks */,
+				5A9077062F7142230026035B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5A90770E2F7142230026035B /* RealityCheckWidget */,
+			);
+			name = RealityCheckWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = RealityCheckWidgetExtension;
+			productReference = 5A9077082F7142230026035B /* RealityCheckWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +277,9 @@
 						CreatedOnToolsVersion = 26.3;
 						TestTargetID = 5A9076C92F7141A80026035B;
 					};
+					5A9077072F7142230026035B = {
+						CreatedOnToolsVersion = 26.3;
+					};
 				};
 			};
 			buildConfigurationList = 5A9076C52F7141A80026035B /* Build configuration list for PBXProject "RealityCheck" */;
@@ -203,6 +299,7 @@
 				5A9076C92F7141A80026035B /* RealityCheck */,
 				5A9076D82F7141AA0026035B /* RealityCheckTests */,
 				5A9076E22F7141AA0026035B /* RealityCheckUITests */,
+				5A9077072F7142230026035B /* RealityCheckWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +320,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5A9076E12F7141AA0026035B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A9077062F7142230026035B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +357,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5A9077042F7142230026035B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +376,11 @@
 			isa = PBXTargetDependency;
 			target = 5A9076C92F7141A80026035B /* RealityCheck */;
 			targetProxy = 5A9076E42F7141AA0026035B /* PBXContainerItemProxy */;
+		};
+		5A9077192F7142240026035B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5A9077072F7142230026035B /* RealityCheckWidgetExtension */;
+			targetProxy = 5A9077182F7142240026035B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -565,6 +681,71 @@
 			};
 			name = Release;
 		};
+		5A90771C2F7142240026035B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RealityCheckWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RealityCheckWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quannh.RealityCheck.RealityCheckWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		5A90771D2F7142240026035B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RealityCheckWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RealityCheckWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quannh.RealityCheck.RealityCheckWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -600,6 +781,15 @@
 			buildConfigurations = (
 				5A9076F42F7141AA0026035B /* Debug */,
 				5A9076F52F7141AA0026035B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5A90771F2F7142240026035B /* Build configuration list for PBXNativeTarget "RealityCheckWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5A90771C2F7142240026035B /* Debug */,
+				5A90771D2F7142240026035B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
