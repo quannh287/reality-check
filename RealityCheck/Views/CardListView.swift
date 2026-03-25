@@ -60,7 +60,6 @@ struct CardListView: View {
                 Button("Xoá", role: .destructive) {
                     if let card = cardToDelete {
                         viewModel.deleteCard(card, context: modelContext)
-                        cardToDelete = nil
                     }
                 }
                 Button("Huỷ", role: .cancel) { cardToDelete = nil }
@@ -120,6 +119,7 @@ struct CardListView: View {
                 SectionLabel("Tất cả thẻ")
                     .padding(.top, 4)
                     .opacity(appeared ? 1 : 0)
+                    .offset(y: appeared ? 0 : 8)
                     .animation(.spring(duration: 0.4).delay(0.03), value: appeared)
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
