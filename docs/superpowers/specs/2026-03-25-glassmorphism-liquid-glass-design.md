@@ -84,10 +84,21 @@ RealityCheck/GlassKit/
 └── FormulaChip.swift           — 4-button formula type selector grid
 ```
 
+**Inline sub-views (không tách file riêng, nằm trong View tương ứng):**
+- `SectionLabel` — small uppercase label dùng trong CardListView và CardFormView
+- `GlassRow` — wrapper row cho SettingsView (HStack + glass background, corner radius tuỳ vị trí)
+- `SegmentedGlassPicker` — Manual/Formula toggle (nằm trong CardFormView)
+- `GlassDatePicker` — DatePicker wrapper với glass style (nằm trong CardFormView)
+- `InputABRow` — label + value fields cho A và B (nằm trong CardFormView)
+- `GlassPinButton` / `GlassDeleteButton` — action buttons (nằm trong CardFormView)
+- `GlassTimePicker` — large digit time display (nằm trong SettingsView)
+
 ### 4.2 GlassModifiers — shared visual recipe
 
 ```swift
 // Liquid Glass surface recipe
+// cornerRadius mặc định: 16 (card), 10 (field/button), 14 (row)
+// Truyền vào qua parameter hoặc environment nếu cần override
 // backdrop-filter: blur(28px) saturate(180%)
 // border: specular top > left > right > bottom
 // box-shadow: inset highlight top + inset shadow bottom + drop shadow
@@ -401,6 +412,8 @@ struct WidgetPreviewView: View {
 - Chỉ hiển thị nếu card isPinned
 
 **Accent color trong widget:** đọc từ `RealityCard.formula` → map sang Color tương ứng.
+
+**Shared view:** `WidgetPreviewView` dùng chung cho cả in-app preview (CardFormView) lẫn widget entry view (`RealityCheckWidget`). Widget entry dùng trực tiếp `WidgetPreviewView` với dữ liệu từ SwiftData shared store — không tạo view riêng.
 
 ---
 
