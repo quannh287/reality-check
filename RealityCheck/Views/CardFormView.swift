@@ -23,16 +23,16 @@ struct CardFormView: View {
             previewPanel
             formPanel
         }
-        .navigationTitle(viewModel.isEditing ? "Sửa Card" : "Tạo Card")
+        .navigationTitle(viewModel.isEditing ? String(localized: "card.form.title.edit") : String(localized: "card.form.title.create"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if !viewModel.isEditing {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Huỷ") { dismiss() }
+                    Button(String(localized: "card.form.action.cancel")) { dismiss() }
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("Lưu") { viewModel.save(card: card, context: modelContext, dismiss: dismiss) }
+                Button(String(localized: "card.form.action.save")) { viewModel.save(card: card, context: modelContext, dismiss: dismiss) }
                     .buttonStyle(.borderedProminent)
                     .disabled(!viewModel.canSave)
             }
@@ -48,34 +48,34 @@ struct CardFormView: View {
 
                 // Title + type
                 VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel("Thông tin")
-                    GlassField("Tiêu đề", text: $vm.title)
+                    SectionLabel(String(localized: "card.form.section.info"))
+                    GlassField(String(localized: "card.form.field.title"), text: $vm.title)
                     segmentedTypePicker
                 }
 
                 // Conditional inputs
                 if viewModel.type == .manual {
                     VStack(alignment: .leading, spacing: 8) {
-                        SectionLabel("Giá trị")
-                        GlassField("Số liệu", text: $vm.value, keyboardType: .decimalPad)
+                        SectionLabel(String(localized: "card.form.section.value"))
+                        GlassField(String(localized: "card.form.field.value"), text: $vm.value, keyboardType: .decimalPad)
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
-                        SectionLabel("Công thức")
+                        SectionLabel(String(localized: "card.form.section.formula"))
                         FormulaChip(selected: $vm.formula)
                     }
 
                     VStack(alignment: .leading, spacing: 8) {
-                        SectionLabel("Inputs")
+                        SectionLabel(String(localized: "card.form.section.inputs"))
                         formulaInputs
                     }
                 }
 
                 // Display
                 VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel("Hiển thị")
-                    GlassField("Đơn vị (ngày, tháng, triệu...)", text: $vm.unit)
-                    GlassField("Context line", text: $vm.contextLine)
+                    SectionLabel(String(localized: "card.form.section.display"))
+                    GlassField(String(localized: "card.form.field.unit"), text: $vm.unit)
+                    GlassField(String(localized: "card.form.field.context"), text: $vm.contextLine)
                 }
 
                 // Actions
@@ -99,7 +99,7 @@ struct CardFormView: View {
                 Button {
                     withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) { viewModel.type = t }
                 } label: {
-                    Text(t == .manual ? "Manual" : "Formula")
+                    Text(t == .manual ? String(localized: "card.form.type.manual") : String(localized: "card.form.type.formula"))
                         .font(.system(size: 12, weight: viewModel.type == t ? .semibold : .regular))
                         .foregroundStyle(viewModel.type == t ? .primary : .secondary)
                         .frame(maxWidth: .infinity)
@@ -133,7 +133,7 @@ struct CardFormView: View {
             HStack {
                 Image(systemName: "calendar")
                     .foregroundStyle(.secondary)
-                DatePicker("Ngày đích", selection: $vm.targetDate, displayedComponents: .date)
+                DatePicker(String(localized: "card.form.field.target.date"), selection: $vm.targetDate, displayedComponents: .date)
                     .labelsHidden()
             }
             .padding(.horizontal, 12)
@@ -141,7 +141,7 @@ struct CardFormView: View {
             .glassField()
 
             if viewModel.previewDisplayValue != "--" {
-                Text("→ \(viewModel.previewDisplayValue) ngày còn lại")
+                Text("card.form.countdown.remaining \(viewModel.previewDisplayValue)")
                     .font(.caption)
                     .foregroundStyle(Color.auroraGreen.opacity(0.8))
                     .padding(.leading, 4)
@@ -154,8 +154,8 @@ struct CardFormView: View {
                         .font(.system(size: 11, weight: .bold))
                         .foregroundStyle(.tertiary)
                         .frame(width: 14)
-                    GlassField("Tên (VD: Doanh số)", text: $vm.inputALabel)
-                    GlassField("Giá trị", text: $vm.inputA, keyboardType: .decimalPad)
+                    GlassField(String(localized: "card.form.field.label.a"), text: $vm.inputALabel)
+                    GlassField(String(localized: "card.form.field.value.placeholder"), text: $vm.inputA, keyboardType: .decimalPad)
                         .frame(width: 80)
                 }
                 HStack(spacing: 8) {
@@ -163,8 +163,8 @@ struct CardFormView: View {
                         .font(.system(size: 11, weight: .bold))
                         .foregroundStyle(.tertiary)
                         .frame(width: 14)
-                    GlassField("Tên (VD: Mục tiêu)", text: $vm.inputBLabel)
-                    GlassField("Giá trị", text: $vm.inputB, keyboardType: .decimalPad)
+                    GlassField(String(localized: "card.form.field.label.b"), text: $vm.inputBLabel)
+                    GlassField(String(localized: "card.form.field.value.placeholder"), text: $vm.inputB, keyboardType: .decimalPad)
                         .frame(width: 80)
                 }
             }
@@ -178,7 +178,7 @@ struct CardFormView: View {
         return Button {
             if let card { viewModel.togglePin(card, context: modelContext) }
         } label: {
-            Label(isPinned ? "Bỏ pin" : "Pin lên widget", systemImage: isPinned ? "pin.slash" : "pin")
+            Label(isPinned ? String(localized: "card.form.action.unpin") : String(localized: "card.form.action.pin"), systemImage: isPinned ? "pin.slash" : "pin")
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 12)
@@ -208,7 +208,7 @@ struct CardFormView: View {
 
     private var previewPanel: some View {
         VStack(spacing: 14) {
-            SectionLabel("Preview")
+            SectionLabel(String(localized: "card.form.preview.section"))
 
             WidgetPreviewView(
                 displayValue: viewModel.previewDisplayValue,
@@ -224,7 +224,7 @@ struct CardFormView: View {
                     .fill(Color.auroraGreen)
                     .frame(width: 6, height: 6)
                     .shadow(color: .auroraGreen.opacity(0.8), radius: 4)
-                Text("Live preview")
+                Text("card.form.preview.label")
                     .font(.system(size: 10, weight: .semibold))
                     .foregroundStyle(Color.auroraGreen.opacity(0.85))
             }
