@@ -96,6 +96,11 @@ Target `RealityCheck` dùng **`PBXFileSystemSynchronizedRootGroup`**: Xcode tự
 
 Worktree để làm việc song song nên đặt ở `worktrees/<tên-branch>` trong project root (đã có trong `.gitignore`). Không đặt worktree trong `.claude/worktrees/` — thư mục `.claude/` được git track nên worktree bên trong sẽ bị commit lên.
 
+**Sau khi merge xong, xoá worktree ngay:**
+```bash
+git worktree remove worktrees/<tên-branch>
+```
+
 ### SourceKit False Positives trong Worktree
 
 Khi worktree nằm bên trong project root (ví dụ `worktrees/feature-x/`), SourceKit của Xcode có thể báo lỗi giả (`Cannot find type`, `No such module`) cho các file trong worktree vì không có project context. Đây là **false positive** — dùng `xcodebuild` để xác nhận build thực tế, không dựa vào SourceKit diagnostics.
