@@ -10,6 +10,7 @@
 		5A90770B2F7142230026035B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A90770A2F7142230026035B /* WidgetKit.framework */; };
 		5A90770D2F7142230026035B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A90770C2F7142230026035B /* SwiftUI.framework */; };
 		5A90771A2F7142240026035B /* RealityCheckWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5A9077082F7142230026035B /* RealityCheckWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5F9CF2DEA94C4D34985BF65A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 39285E99EB4E4B02999C9296 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		5A9077082F7142230026035B /* RealityCheckWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RealityCheckWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A90770A2F7142230026035B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		5A90770C2F7142230026035B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		39285E99EB4E4B02999C9296 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -294,6 +296,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				vi,
 				Base,
 			);
 			mainGroup = 5A9076C12F7141A80026035B;
@@ -325,6 +328,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F9CF2DEA94C4D34985BF65A /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
