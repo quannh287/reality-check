@@ -38,6 +38,9 @@ struct GlassToggle: View {
                 .offset(x: isOn ? 9 : -9)
         }
         .frame(width: 44, height: 26)
+        .accessibilityLabel("Toggle")
+        .accessibilityValue(isOn ? "on" : "off")
+        .accessibilityAddTraits(.isButton)
         .onTapGesture {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
                 isOn.toggle()

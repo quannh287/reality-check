@@ -7,10 +7,11 @@ struct GlassField: View {
     var keyboardType: UIKeyboardType = .default
     var font: Font = .body
 
-    init(_ placeholder: String, text: Binding<String>, keyboardType: UIKeyboardType = .default) {
+    init(_ placeholder: String, text: Binding<String>, keyboardType: UIKeyboardType = .default, font: Font = .body) {
         self.placeholder = placeholder
         self._text = text
         self.keyboardType = keyboardType
+        self.font = font
     }
 
     var body: some View {
