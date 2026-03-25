@@ -155,7 +155,7 @@ struct SettingsView: View {
                             WidgetCenter.shared.reloadAllTimelines()
                         } label: {
                             HStack {
-                                Text("Reload widget")
+                                Text("Làm mới widget")
                                     .font(.system(size: 14, weight: .medium))
                                     .foregroundStyle(.primary)
                                 Spacer()
@@ -175,7 +175,7 @@ struct SettingsView: View {
         }
         .navigationTitle("Cài đặt")
         .onAppear {
-            if notificationEnabled { NotificationService.requestPermission() }
+            if notificationEnabled { updateNotification() }
         }
     }
 
