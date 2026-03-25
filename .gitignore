@@ -4,4 +4,6 @@ build/
 xcuserdata/
 .superpowers/
 .worktrees/
+worktrees/
+.claude/worktrees/
 .claude/settings.local.json
