@@ -20,13 +20,11 @@ struct RealityCheckEntry: TimelineEntry {
 // MARK: - Provider (unchanged logic)
 
 struct RealityCheckProvider: TimelineProvider {
-    private var modelContext: ModelContext {
-        let container = try! ModelContainer(
-            for: RealityCard.self,
-            configurations: AppGroupContainer.modelConfiguration
-        )
-        return ModelContext(container)
-    }
+    private static let emptyEntry = RealityCheckEntry(
+        date: Date(), displayValue: "--", title: "",
+        unit: "", contextLine: "Mở app để tạo Reality Card đầu tiên",
+        hasCard: false, formula: nil, cardType: .manual, progressValue: nil
+    )
 
     func placeholder(in context: Context) -> RealityCheckEntry {
         RealityCheckEntry(date: Date(), displayValue: "47", title: "Runway",
@@ -46,12 +44,14 @@ struct RealityCheckProvider: TimelineProvider {
     }
 
     private func fetchEntry() -> RealityCheckEntry {
+        guard let container = try? ModelContainer(
+            for: RealityCard.self,
+            configurations: AppGroupContainer.modelConfiguration
+        ) else { return Self.emptyEntry }
+        let context = ModelContext(container)
         let descriptor = FetchDescriptor<RealityCard>(predicate: #Predicate { $0.isPinned == true })
-        guard let card = try? modelContext.fetch(descriptor).first else {
-            return RealityCheckEntry(date: Date(), displayValue: "--", title: "",
-                                     unit: "", contextLine: "Mở app để tạo Reality Card đầu tiên",
-                                     hasCard: false, formula: nil, cardType: .manual,
-                                     progressValue: nil)
+        guard let card = try? context.fetch(descriptor).first else {
+            return Self.emptyEntry
         }
         // Compute optional progress for formula cards (0.0–1.0)
         let progress: Double? = {
