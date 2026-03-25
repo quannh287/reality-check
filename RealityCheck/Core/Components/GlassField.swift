@@ -42,25 +42,12 @@ struct SectionLabel: View {
 
     var body: some View {
         Text(text)
-            .font(.system(size: 10, weight: .bold))
+            .font(.system(size: 16, weight: .bold))
             .textCase(.uppercase)
             .tracking(1.4)
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(.primary)
             .padding(.leading, 4)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
-#Preview {
-    @Previewable @State var title = ""
-    ZStack {
-        AuroraBackground()
-        VStack(alignment: .leading, spacing: 6) {
-            SectionLabel("Tiêu đề")
-            GlassField("Nhập tiêu đề...", text: $title)
-            SectionLabel("Giá trị")
-            GlassField("0", text: .constant("15000000"))
-        }
-        .padding()
-    }
-    .preferredColorScheme(.dark)
-}

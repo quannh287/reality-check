@@ -58,15 +58,18 @@ struct GlassSurfaceModifier: ViewModifier {
         RoundedRectangle(cornerRadius: cornerRadius)
             .fill(.ultraThinMaterial)
             .overlay(
-                LinearGradient(
-                    colors: [
-                        accent.opacity(accentOpacity * 1.5),
-                        accent.opacity(accentOpacity * 0.4),
-                        accent.opacity(accentOpacity)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                accent.opacity(accentOpacity * 1.5),
+                                accent.opacity(accentOpacity * 0.4),
+                                accent.opacity(accentOpacity)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
             )
     }
 

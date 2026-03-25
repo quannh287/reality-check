@@ -22,62 +22,63 @@ xcodebuild build -scheme RealityCheckWidget -project RealityCheck.xcodeproj -des
 
 **Reality Check** is an iOS app (SwiftUI + SwiftData + WidgetKit) that lets users pin "reality cards" — facts or computed metrics — to their home screen as a daily reminder. The app is dark-mode only.
 
+### Project Structure
+
+```
+RealityCheck/
+├── App/          — @main entry, ModelContainer setup
+├── Core/
+│   ├── Components/   — GlassKit UI library (AuroraBackground, GlassCard, GlassButton,
+│   │                   GlassField, GlassToggle, GlassModifiers, FormulaChip,
+│   │                   WidgetPreviewView, ShimmerView, SectionLabel)
+│   ├── Extensions/   — Color+Aurora.swift (hex init, aurora palette, accentColor)
+│   └── Utils/        — FormulaEngine, NotificationService, AppGroupContainer
+├── Models/       — RealityCard.swift (@Model, CardType, FormulaType enums)
+├── Previews/     — #Preview macros only, separated from production code
+├── ViewModels/   — @Observable ViewModels (CardListViewModel, CardFormViewModel, SettingsViewModel)
+└── Views/        — CardListView, CardFormView, SettingsView
+```
+
 ### Data Model
 
-`RealityCard` (`RealityCheck/Models/RealityCard.swift`) is the sole SwiftData `@Model`:
-- `type: CardType` — `.manual` (user-entered value) or `.formula` (computed)
+`RealityCard` is the sole SwiftData `@Model`:
+- `type: CardType` — `.manual` (user-entered) or `.formula` (computed)
 - `formula: FormulaType?` — `.divide` (A÷B), `.count` (A/B display), `.subtract` (A−B), `.countdown` (days until date)
-- `isPinned: Bool` — at most one card should be pinned; the widget shows the pinned card
+- `isPinned: Bool` — at most one card pinned at a time; the widget shows only the pinned card
 
 ### Formula Engine
 
-`FormulaEngine` (`RealityCheck/Models/FormulaEngine.swift`) is a pure enum with static methods. `displayValue(for:)` takes a `RealityCard` and returns a formatted `String`. This is the single source of truth for computed values — used in list rows, form preview, widget, and notifications.
+`FormulaEngine` is a pure enum with static methods. `displayValue(for:)` is the single source of truth for computed display strings — used in list rows, `CardFormViewModel.previewDisplayValue`, widget, and notifications. `formatNumber(_:)` is also used directly for live preview calculations.
+
+### MVVM Pattern
+
+Views own `@Query` and `@Environment(\.modelContext)` (SwiftData requires these in Views). Business logic lives in `@Observable` ViewModels held as `@State`:
+- `CardFormViewModel` — all form fields as `var` properties; `init(card:)` populates from an existing card. Views bind to fields via `@Bindable var vm = viewModel` inside `body`.
+- `CardListViewModel` — pin/delete actions
+- `SettingsViewModel` — notification scheduling
 
 ### App ↔ Widget Data Sharing
 
-Both targets share a SwiftData store via App Groups:
-- Group ID: `group.com.quannh.realitycheck`
-- `AppGroupContainer` (`RealityCheck/Shared/AppGroupContainer.swift`) provides the shared `ModelConfiguration`
-- The widget queries the shared store for the pinned card; all writes happen in the main app
-- After pinning/unpinning, call `WidgetCenter.shared.reloadAllTimelines()` to refresh the widget
-- Widget timeline refreshes every hour
+Both targets share a SwiftData store via App Group `group.com.quannh.realitycheck`. `AppGroupContainer` provides the shared `ModelConfiguration`; all writes happen in the main app.
 
-**Important:** `RealityCard.swift`, `FormulaEngine.swift`, and `AppGroupContainer.swift` are duplicated into the `RealityCheckWidget` target (Swift files cannot be shared across targets without a framework). Changes to these files in `RealityCheck/` must be mirrored in `RealityCheckWidget/`.
+**Critical:** `RealityCard.swift`, `FormulaEngine.swift`, and `AppGroupContainer.swift` are physically duplicated into `RealityCheckWidget/` (Swift can't share source files across targets without a framework). Any change to these files in `RealityCheck/` must be mirrored in `RealityCheckWidget/`.
 
-### GlassKit Design System
+After pinning/unpinning, always call `WidgetCenter.shared.reloadAllTimelines()`.
 
-`RealityCheck/GlassKit/` is the app's internal UI component library implementing the Aurora Liquid Glass aesthetic:
+### GlassKit & Aurora Colors
 
-- `AuroraBackground` — animated dark background with three blurred color orbs (no animation in widget contexts)
-- `GlassCard` — card component with `.pinned` (hero) and `.unpinned` (compact) styles; pinned cards show a progress bar for `.divide` formula cards
-- `GlassModifiers` — view extension methods: `.glassCard()` (cornerRadius 16), `.glassField()` (cornerRadius 10), `.glassRow()` (grouped rows with custom per-corner radii); all use `.ultraThinMaterial` + gradient overlay + specular border
-- `ShimmerView` — shimmer overlay applied to all GlassCards
-- `GlassButton`, `GlassField`, `GlassToggle`, `FormulaChip` — styled form controls
+`Core/Components/` implements the Aurora Liquid Glass aesthetic. `Core/Extensions/Color+Aurora.swift` defines the palette and `accentColor` extensions — each `FormulaType` maps to a color, which drives card tinting throughout the app and widget.
 
-**Aurora color palette** (defined in `AuroraBackground.swift`, duplicated as hex literals in the widget):
-- `.auroraRed` `#ff6b6b` — manual cards
+Aurora palette (widget duplicates these as hardcoded hex strings in `RealityCheckEntry.accentColor`):
+- `.auroraRed` `#ff6b6b` — `.manual`
 - `.auroraTeal` `#64dfdf` — `.divide`
 - `.auroraPurple` `#c77dff` — `.count`
 - `.auroraYellow` `#ffd93d` — `.subtract`
 - `.auroraGreen` `#00f5a0` — `.countdown`
-- `.auroraBlue` `#00b4ff` — background orb only
-
-Each `FormulaType` has an `.accentColor` extension in `AuroraBackground.swift`. The widget duplicates these as hardcoded hex strings in `RealityCheckEntry.accentColor`.
-
-### Views
-
-Views use `@Query` and `@Environment(\.modelContext)` directly — no explicit view models. Key views:
-- `CardListView` — root screen; two sections (pinned, others); swipe to pin/delete
-- `CardFormView` — create/edit form with live `WidgetPreviewView` showing widget appearance in real time
-- `SettingsView` — notification toggle + time picker, persisted via `@AppStorage`
-
-### Notifications
-
-`NotificationService` (`RealityCheck/Services/NotificationService.swift`) schedules a single daily `UNCalendarNotificationTrigger`. Content is built from the pinned card at schedule time. Identifier: `"daily-reality-check"`.
 
 ### Testing
 
-Tests use Swift Testing (`@Suite`, `@Test` macros), not XCTest. `FormulaEngineTests` is the most comprehensive — covers all formula types and edge cases (divide-by-zero returns `"∞"`, past-date countdown returns `"0"`, missing inputs return `"--"`).
+Tests use Swift Testing (`@Suite`, `@Test`), not XCTest. Edge cases: divide-by-zero → `"∞"`, past-date countdown → `"0"`, nil inputs → `"--"`.
 
 ### UI Language
 

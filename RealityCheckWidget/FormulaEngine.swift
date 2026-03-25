@@ -7,7 +7,7 @@ enum FormulaEngine {
         switch card.type {
         case .manual:
             guard let value = card.value else { return "--" }
-            return formatNumber(value)
+            return formatNumberVi(value)
 
         case .formula:
             guard let formula = card.formula else { return "--" }
@@ -20,7 +20,7 @@ enum FormulaEngine {
         case .divide:
             guard let a = card.inputA, let b = card.inputB else { return "--" }
             if b == 0 { return "∞" }
-            return formatNumber(a / b)
+            return formatNumberVi(a / b)
 
         case .count:
             guard let a = card.inputA, let b = card.inputB else { return "--" }
@@ -28,7 +28,7 @@ enum FormulaEngine {
 
         case .subtract:
             guard let a = card.inputA, let b = card.inputB else { return "--" }
-            return formatNumber(a - b)
+            return formatNumberVi(a - b)
 
         case .countdown:
             guard let target = card.targetDate else { return "--" }
@@ -42,5 +42,18 @@ enum FormulaEngine {
             return "\(Int(value))"
         }
         return String(format: "%.1f", value)
+    }
+
+    private static let viFormatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .decimal
+        f.locale = Locale(identifier: "vi_VN")
+        f.maximumFractionDigits = 1
+        f.minimumFractionDigits = 0
+        return f
+    }()
+
+    private static func formatNumberVi(_ value: Double) -> String {
+        viFormatter.string(from: NSNumber(value: value)) ?? formatNumber(value)
     }
 }

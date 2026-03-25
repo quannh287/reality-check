@@ -10,9 +10,11 @@ struct RealityCheckApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CardListView()
-                .background(AuroraBackground())
-                .preferredColorScheme(.dark)
+            ZStack {
+                AuroraBackground()
+                CardListView()
+            }
+            .preferredColorScheme(.dark)
         }
         .modelContainer(
             try! ModelContainer(

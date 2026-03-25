@@ -11,6 +11,8 @@ struct SettingsView: View {
     @Query(filter: #Predicate<RealityCard> { $0.isPinned == true })
     private var pinnedCards: [RealityCard]
 
+    @State private var viewModel = SettingsViewModel()
+
     private var notificationTime: Binding<Date> {
         Binding(
             get: {
@@ -181,19 +183,11 @@ struct SettingsView: View {
 
     private func updateNotification() {
         guard notificationEnabled else { return }
-        NotificationService.scheduleDailyNotification(
-            for: pinnedCards.first,
+        viewModel.updateNotification(
+            pinnedCard: pinnedCards.first,
             hour: notificationHour,
             minute: notificationMinute
         )
     }
 }
 
-#Preview {
-    NavigationStack {
-        SettingsView()
-    }
-    .modelContainer(for: RealityCard.self, inMemory: true)
-    .background(AuroraBackground())
-    .preferredColorScheme(.dark)
-}

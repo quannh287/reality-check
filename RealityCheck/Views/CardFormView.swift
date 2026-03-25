@@ -1,7 +1,6 @@
 // RealityCheck/Views/CardFormView.swift
 import SwiftUI
 import SwiftData
-import WidgetKit
 
 struct CardFormView: View {
     @Environment(\.modelContext) private var modelContext
@@ -9,107 +8,61 @@ struct CardFormView: View {
 
     let card: RealityCard?
 
-    @State private var title: String = ""
-    @State private var type: CardType = .manual
-    @State private var value: String = ""
-    @State private var formula: FormulaType = .divide
-    @State private var inputA: String = ""
-    @State private var inputALabel: String = ""
-    @State private var inputB: String = ""
-    @State private var inputBLabel: String = ""
-    @State private var targetDate: Date = Date()
-    @State private var unit: String = ""
-    @State private var contextLine: String = ""
+    @State private var viewModel: CardFormViewModel
 
-    private var isEditing: Bool { card != nil }
-
-    // MARK: - Preview value
-
-    private var previewDisplayValue: String {
-        switch type {
-        case .manual:
-            guard let v = Double(value) else { return "--" }
-            return FormulaEngine.formatNumber(v)
-        case .formula:
-            switch formula {
-            case .divide:
-                guard let a = Double(inputA), let b = Double(inputB) else { return "--" }
-                if b == 0 { return "∞" }
-                return FormulaEngine.formatNumber(a / b)
-            case .count:
-                guard let a = Double(inputA), let b = Double(inputB) else { return "--" }
-                return "\(Int(a))/\(Int(b))"
-            case .subtract:
-                guard let a = Double(inputA), let b = Double(inputB) else { return "--" }
-                return FormulaEngine.formatNumber(a - b)
-            case .countdown:
-                let days = Calendar.current.dateComponents([.day], from: Date(), to: targetDate).day ?? 0
-                return "\(max(0, days))"
-            }
-        }
-    }
-
-    private var previewAccentColor: Color {
-        switch type {
-        case .manual: return .auroraRed
-        case .formula: return formula.accentColor
-        }
-    }
-
-    private var canSave: Bool {
-        !title.isEmpty && !unit.isEmpty && !contextLine.isEmpty
+    init(card: RealityCard?) {
+        self.card = card
+        _viewModel = State(initialValue: CardFormViewModel(card: card))
     }
 
     // MARK: - Body
 
     var body: some View {
-        HStack(spacing: 0) {
-            formPanel
-                .frame(maxWidth: .infinity)
-
-            Divider().opacity(0.1)
-
+        @Bindable var vm = viewModel
+        VStack(spacing: 0) {
             previewPanel
-                .frame(width: 200)
+            formPanel
         }
-        .navigationTitle(isEditing ? "Sửa Card" : "Tạo Card")
+        .navigationTitle(viewModel.isEditing ? "Sửa Card" : "Tạo Card")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if !isEditing {
+            if !viewModel.isEditing {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Huỷ") { dismiss() }
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
-                GlassButton("Lưu", style: .primary, isDisabled: !canSave) { save() }
+                Button("Lưu") { viewModel.save(card: card, context: modelContext, dismiss: dismiss) }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(!viewModel.canSave)
             }
         }
-        .onAppear { loadCard() }
     }
 
     // MARK: - Form panel
 
     private var formPanel: some View {
-        ScrollView {
+        @Bindable var vm = viewModel
+        return ScrollView {
             VStack(alignment: .leading, spacing: 16) {
 
                 // Title + type
                 VStack(alignment: .leading, spacing: 8) {
                     SectionLabel("Thông tin")
-                    GlassField("Tiêu đề", text: $title)
+                    GlassField("Tiêu đề", text: $vm.title)
                     segmentedTypePicker
                 }
 
                 // Conditional inputs
-                if type == .manual {
+                if viewModel.type == .manual {
                     VStack(alignment: .leading, spacing: 8) {
                         SectionLabel("Giá trị")
-                        GlassField("Số liệu", text: $value, keyboardType: .decimalPad)
+                        GlassField("Số liệu", text: $vm.value, keyboardType: .decimalPad)
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
                         SectionLabel("Công thức")
-                        FormulaChip(selected: $formula)
+                        FormulaChip(selected: $vm.formula)
                     }
 
                     VStack(alignment: .leading, spacing: 8) {
@@ -121,12 +74,12 @@ struct CardFormView: View {
                 // Display
                 VStack(alignment: .leading, spacing: 8) {
                     SectionLabel("Hiển thị")
-                    GlassField("Đơn vị (ngày, tháng, triệu...)", text: $unit)
-                    GlassField("Context line", text: $contextLine)
+                    GlassField("Đơn vị (ngày, tháng, triệu...)", text: $vm.unit)
+                    GlassField("Context line", text: $vm.contextLine)
                 }
 
                 // Actions
-                if isEditing {
+                if viewModel.isEditing {
                     HStack(spacing: 8) {
                         pinButton
                         deleteButton
@@ -144,15 +97,15 @@ struct CardFormView: View {
         HStack(spacing: 0) {
             ForEach([CardType.manual, CardType.formula], id: \.self) { t in
                 Button {
-                    withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) { type = t }
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) { viewModel.type = t }
                 } label: {
                     Text(t == .manual ? "Manual" : "Formula")
-                        .font(.system(size: 12, weight: type == t ? .semibold : .regular))
-                        .foregroundStyle(type == t ? .primary : .secondary)
+                        .font(.system(size: 12, weight: viewModel.type == t ? .semibold : .regular))
+                        .foregroundStyle(viewModel.type == t ? .primary : .secondary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 7)
                         .background(
-                            type == t
+                            viewModel.type == t
                                 ? RoundedRectangle(cornerRadius: 8)
                                     .fill(.ultraThinMaterial)
                                     .overlay(
@@ -175,34 +128,34 @@ struct CardFormView: View {
 
     @ViewBuilder
     private var formulaInputs: some View {
-        if formula == .countdown {
-            // Date picker with glass style
+        @Bindable var vm = viewModel
+        if viewModel.formula == .countdown {
             HStack {
                 Image(systemName: "calendar")
                     .foregroundStyle(.secondary)
-                DatePicker("Ngày đích", selection: $targetDate, displayedComponents: .date)
+                DatePicker("Ngày đích", selection: $vm.targetDate, displayedComponents: .date)
                     .labelsHidden()
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
             .glassField()
 
-            if previewDisplayValue != "--" {
-                Text("→ \(previewDisplayValue) ngày còn lại")
+            if viewModel.previewDisplayValue != "--" {
+                Text("→ \(viewModel.previewDisplayValue) ngày còn lại")
                     .font(.caption)
                     .foregroundStyle(Color.auroraGreen.opacity(0.8))
                     .padding(.leading, 4)
             }
         } else {
-            // A/B inputs
+            @Bindable var vm = viewModel
             VStack(spacing: 6) {
                 HStack(spacing: 8) {
                     Text("A")
                         .font(.system(size: 11, weight: .bold))
                         .foregroundStyle(.tertiary)
                         .frame(width: 14)
-                    GlassField("Tên (VD: Doanh số)", text: $inputALabel)
-                    GlassField("Giá trị", text: $inputA, keyboardType: .decimalPad)
+                    GlassField("Tên (VD: Doanh số)", text: $vm.inputALabel)
+                    GlassField("Giá trị", text: $vm.inputA, keyboardType: .decimalPad)
                         .frame(width: 80)
                 }
                 HStack(spacing: 8) {
@@ -210,8 +163,8 @@ struct CardFormView: View {
                         .font(.system(size: 11, weight: .bold))
                         .foregroundStyle(.tertiary)
                         .frame(width: 14)
-                    GlassField("Tên (VD: Mục tiêu)", text: $inputBLabel)
-                    GlassField("Giá trị", text: $inputB, keyboardType: .decimalPad)
+                    GlassField("Tên (VD: Mục tiêu)", text: $vm.inputBLabel)
+                    GlassField("Giá trị", text: $vm.inputB, keyboardType: .decimalPad)
                         .frame(width: 80)
                 }
             }
@@ -223,16 +176,7 @@ struct CardFormView: View {
     private var pinButton: some View {
         let isPinned = card?.isPinned ?? false
         return Button {
-            if let card {
-                withAnimation {
-                    for c in (try? modelContext.fetch(FetchDescriptor<RealityCard>())) ?? [] where c.isPinned {
-                        c.isPinned = false
-                    }
-                    card.isPinned = !isPinned
-                    card.updatedAt = Date()
-                }
-                WidgetCenter.shared.reloadAllTimelines()
-            }
+            if let card { viewModel.togglePin(card, context: modelContext) }
         } label: {
             Label(isPinned ? "Bỏ pin" : "Pin lên widget", systemImage: isPinned ? "pin.slash" : "pin")
                 .font(.system(size: 12))
@@ -246,9 +190,7 @@ struct CardFormView: View {
 
     private var deleteButton: some View {
         Button(role: .destructive) {
-            if let card { modelContext.delete(card) }
-            WidgetCenter.shared.reloadAllTimelines()
-            dismiss()
+            if let card { viewModel.delete(card, context: modelContext, dismiss: dismiss) }
         } label: {
             Image(systemName: "trash")
                 .font(.system(size: 14))
@@ -269,15 +211,14 @@ struct CardFormView: View {
             SectionLabel("Preview")
 
             WidgetPreviewView(
-                displayValue: previewDisplayValue,
-                unit: unit,
-                contextLine: contextLine,
-                accentColor: previewAccentColor
+                displayValue: viewModel.previewDisplayValue,
+                unit: viewModel.unit,
+                contextLine: viewModel.contextLine,
+                accentColor: viewModel.previewAccentColor
             )
-            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: previewDisplayValue)
-            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: previewAccentColor)
+            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: viewModel.previewDisplayValue)
+            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: viewModel.previewAccentColor)
 
-            // Live badge
             HStack(spacing: 5) {
                 Circle()
                     .fill(Color.auroraGreen)
@@ -292,92 +233,9 @@ struct CardFormView: View {
             .background(Color.auroraGreen.opacity(0.1))
             .overlay(Capsule().strokeBorder(Color.auroraGreen.opacity(0.22), lineWidth: 1))
             .clipShape(Capsule())
-
-            Spacer()
         }
-        .padding(16)
+        .padding(.horizontal, 16)
+        .padding(.top, 16)
+        .padding(.bottom, 8)
     }
-
-    // MARK: - Load / Save
-
-    private func loadCard() {
-        guard let card else { return }
-        title = card.title
-        type = card.type
-        value = card.value.map { String($0) } ?? ""
-        formula = card.formula ?? .divide
-        inputA = card.inputA.map { String($0) } ?? ""
-        inputALabel = card.inputALabel ?? ""
-        inputB = card.inputB.map { String($0) } ?? ""
-        inputBLabel = card.inputBLabel ?? ""
-        targetDate = card.targetDate ?? Date()
-        unit = card.unit
-        contextLine = card.contextLine
-    }
-
-    private func save() {
-        if let card {
-            card.title = title
-            card.type = type
-            card.value = Double(value)
-            card.formula = type == .formula ? formula : nil
-            card.inputA = Double(inputA)
-            card.inputALabel = inputALabel.isEmpty ? nil : inputALabel
-            card.inputB = Double(inputB)
-            card.inputBLabel = inputBLabel.isEmpty ? nil : inputBLabel
-            card.targetDate = formula == .countdown ? targetDate : nil
-            card.unit = unit
-            card.contextLine = contextLine
-            card.updatedAt = Date()
-        } else {
-            let newCard = RealityCard(
-                title: title,
-                type: type,
-                formula: type == .formula ? formula : nil,
-                value: Double(value),
-                inputA: Double(inputA),
-                inputALabel: inputALabel.isEmpty ? nil : inputALabel,
-                inputB: Double(inputB),
-                inputBLabel: inputBLabel.isEmpty ? nil : inputBLabel,
-                targetDate: formula == .countdown ? targetDate : nil,
-                unit: unit,
-                contextLine: contextLine
-            )
-            modelContext.insert(newCard)
-        }
-        WidgetCenter.shared.reloadAllTimelines()
-        dismiss()
-    }
-}
-
-#Preview("Tạo mới") {
-    NavigationStack {
-        CardFormView(card: nil)
-    }
-    .modelContainer(for: RealityCard.self, inMemory: true)
-    .background(AuroraBackground())
-    .preferredColorScheme(.dark)
-}
-
-#Preview("Chỉnh sửa") {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: RealityCard.self, configurations: config)
-    let card = RealityCard(
-        title: "Runway",
-        type: .formula,
-        formula: .divide,
-        inputA: 300_000_000,
-        inputALabel: "Tiết kiệm",
-        inputB: 15_000_000,
-        inputBLabel: "Chi phí / tháng",
-        unit: "tháng",
-        contextLine: "còn sống được nếu nghỉ việc"
-    )
-    container.mainContext.insert(card)
-    return NavigationStack {
-        CardFormView(card: card)
-    }
-    .modelContainer(container)
-    .background(AuroraBackground())
-    .preferredColorScheme(.dark)
 }
