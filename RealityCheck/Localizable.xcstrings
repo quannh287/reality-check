@@ -282,6 +282,30 @@
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Open app to create your first Reality Card" } },
         "vi" : { "stringUnit" : { "state" : "translated", "value" : "Mở app để tạo Reality Card đầu tiên" } }
       }
+    },
+    "card.list.alert.delete.title" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete card?" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Xoá thẻ?" } }
+      }
+    },
+    "card.list.alert.delete.message" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This action cannot be undone." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Hành động này không thể hoàn tác." } }
+      }
+    },
+    "card.list.action.unpin" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unpin" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bỏ ghim" } }
+      }
+    },
+    "card.list.action.pin.short" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pin" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Ghim" } }
+      }
     }
   },
   "version" : "1.0"

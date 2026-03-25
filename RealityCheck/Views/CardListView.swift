@@ -53,18 +53,18 @@ struct CardListView: View {
             .sheet(isPresented: $showingCreateForm) {
                 NavigationStack { CardFormView(card: nil) }
             }
-            .alert("Xoá thẻ?", isPresented: Binding(
+            .alert(String(localized: "card.list.alert.delete.title"), isPresented: Binding(
                 get: { cardToDelete != nil },
                 set: { if !$0 { cardToDelete = nil } }
             )) {
-                Button("Xoá", role: .destructive) {
+                Button(String(localized: "card.list.action.delete"), role: .destructive) {
                     if let card = cardToDelete {
                         viewModel.deleteCard(card, context: modelContext)
                     }
                 }
-                Button("Huỷ", role: .cancel) { cardToDelete = nil }
+                Button(String(localized: "card.form.action.cancel"), role: .cancel) { cardToDelete = nil }
             } message: {
-                Text("Hành động này không thể hoàn tác.")
+                Text("card.list.alert.delete.message")
             }
         }
         .background(.clear)
@@ -107,7 +107,7 @@ struct CardListView: View {
                 Button {
                     viewModel.unpinCard(pinned, context: modelContext)
                 } label: {
-                    Label("Bỏ ghim", systemImage: "pin.slash")
+                    Label(String(localized: "card.list.action.unpin"), systemImage: "pin.slash")
                 }
                 .tint(.auroraYellow)
             }
@@ -150,7 +150,7 @@ struct CardListView: View {
                     Button {
                         viewModel.pinCard(card, from: cards, context: modelContext)
                     } label: {
-                        Label("Ghim", systemImage: "pin")
+                        Label(String(localized: "card.list.action.pin.short"), systemImage: "pin")
                     }
                     .tint(.auroraGreen)
                 }
