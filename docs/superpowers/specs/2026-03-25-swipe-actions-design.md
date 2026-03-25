@@ -9,12 +9,14 @@ Add swipe-left (trailing edge) actions to card rows in `CardListView`, replacing
 
 ## Layout Change
 
-Replace `ScrollView + VStack` with `List` styled to match the existing Aurora/GlassKit aesthetic:
+Replace `ScrollView + VStack` with `List` styled to match the existing Aurora/GlassKit aesthetic.
+
+**Why `List` is required:** `.swipeActions` is a SwiftUI modifier that only works on rows inside a `List`. It is not available for views inside `ScrollView + VStack`. The migration to `List` is a technical constraint, not a preference.
 
 ```swift
 List { ... }
     .listStyle(.plain)
-    .scrollContentBackground(.hidden)
+    .scrollContentBackground(.hidden)  // moved from ScrollView — same effect
 ```
 
 Each row uses:
@@ -22,9 +24,16 @@ Each row uses:
 .listRowBackground(Color.clear)
 .listRowSeparator(.hidden)
 .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
+// listRowInsets fully replaces system defaults — no double-padding risk
 ```
 
-`SectionLabel`, entry animations (`appeared` state), and section structure (pinned / unpinned) remain unchanged. Visual output is identical to the current layout.
+The outer `VStack` padding (`.padding(.horizontal, 16)`) is removed; row insets take over.
+
+`SectionLabel` and section structure (pinned / unpinned) remain unchanged. The `emptyState` view is placed as an inline row.
+
+### Entry Animations
+
+The current per-row `appeared`-driven animations use `.opacity` + `.offset(y:)` applied to each row's content view. These modifiers are applied to the view itself — not to List layout — so they work inside `List` rows. However, `.offset(y:)` inside a List row affects rendering within the allocated row height; on first test during implementation, if any visual artifact appears (clipping, layout jitter), the fallback is to replace per-row `offset` with a `.transition(.opacity.combined(with: .move(edge: .top)))` applied to each row using `.listRowSeparator` and list insertion animation. This decision is made during implementation.
 
 ## Swipe Actions
 
@@ -43,6 +52,8 @@ Applied via `.swipeActions(edge: .trailing, allowsFullSwipe: false)` on each car
 |--------|------|------|--------|
 | Ghim | `pin` | `.auroraGreen` | `viewModel.pinCard(card, from: cards, context:)` |
 | Xoá | `trash` | `.red` (role: `.destructive`) | Set `cardToDelete = card` |
+
+**Color rationale:** `.auroraYellow` for "bỏ ghim" (caution/warning tone) and `.auroraGreen` for "ghim" (positive/action tone) are intentional UI choices. They do not follow the formula-type color system from `Color+Aurora.swift`.
 
 The existing `.contextMenu` on unpinned cards is removed entirely.
 
@@ -67,6 +78,8 @@ A single `@State private var cardToDelete: RealityCard? = nil` tracks the pendin
 }
 ```
 
+**Delete during animation:** Calling `context.delete(card)` while a row is still animating out is safe. SwiftData + `@Query` automatically removes the model object from the query result and drives the List row removal. No crash risk from concurrent animation and deletion.
+
 ## ViewModel Changes
 
 Add `unpinCard` to `CardListViewModel`:
@@ -81,17 +94,19 @@ func unpinCard(_ card: RealityCard, context: ModelContext) {
 }
 ```
 
+**Autosave:** Both `unpinCard` and existing `pinCard`/`deleteCard` rely on SwiftData's autosave. No explicit `context.save()` call is needed or added.
+
 No other ViewModel changes needed. Existing `pinCard` and `deleteCard` are reused as-is.
 
 ## Parallel Work
 
-Implementation runs on a git worktree at a local path inside the project directory, branching off `main` as `feature/swipe-actions`. This isolates changes from any other Claude Code session working on `main`.
+Implementation runs on a git worktree at a local path inside the project directory (`<project-root>/worktrees/feature-swipe-actions`), branching off `main` as `feature/swipe-actions`. This isolates changes from any other Claude Code session working on `main`.
 
 ## Files Changed
 
 | File | Change |
 |------|--------|
-| `RealityCheck/Views/CardListView.swift` | Replace ScrollView/VStack with List; add swipeActions, remove contextMenu, add alert state |
+| `RealityCheck/Views/CardListView.swift` | Replace ScrollView/VStack with List; add swipeActions; remove contextMenu; add `cardToDelete` alert state |
 | `RealityCheck/ViewModels/CardListViewModel.swift` | Add `unpinCard` method |
 
-No new files created. Widget target files are not affected.
+No new files created. Widget target files are not affected (swipe actions are main-app UI only).
