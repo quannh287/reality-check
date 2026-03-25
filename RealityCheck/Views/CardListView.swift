@@ -30,7 +30,7 @@ struct CardListView: View {
             .scrollContentBackground(.hidden)
             .padding(.top, 8)
             .padding(.bottom, 24)
-            .navigationTitle("Reality Check")
+            .navigationTitle(String(localized: "app.title"))
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
@@ -79,7 +79,7 @@ struct CardListView: View {
     private var cardContent: some View {
         // Pinned section
         if let pinned = pinnedCard {
-            SectionLabel("Đã ghim")
+            SectionLabel(String(localized: "card.list.section.pinned"))
                 .opacity(appeared ? 1 : 0)
                 .offset(y: appeared ? 0 : 8)
                 .animation(.spring(duration: 0.4), value: appeared)
@@ -102,7 +102,7 @@ struct CardListView: View {
                 Button(role: .destructive) {
                     cardToDelete = pinned
                 } label: {
-                    Label("Xoá", systemImage: "trash")
+                    Label(String(localized: "card.list.action.delete"), systemImage: "trash")
                 }
                 Button {
                     viewModel.unpinCard(pinned, context: modelContext)
@@ -116,7 +116,7 @@ struct CardListView: View {
         // Unpinned section
         if !unpinnedCards.isEmpty {
             if pinnedCard != nil {
-                SectionLabel("Tất cả thẻ")
+                SectionLabel(String(localized: "card.list.section.all"))
                     .padding(.top, 4)
                     .opacity(appeared ? 1 : 0)
                     .offset(y: appeared ? 0 : 8)
@@ -145,7 +145,7 @@ struct CardListView: View {
                     Button(role: .destructive) {
                         cardToDelete = card
                     } label: {
-                        Label("Xoá", systemImage: "trash")
+                        Label(String(localized: "card.list.action.delete"), systemImage: "trash")
                     }
                     Button {
                         viewModel.pinCard(card, from: cards, context: modelContext)
@@ -167,16 +167,16 @@ struct CardListView: View {
                 .foregroundStyle(.primary)
                 .padding(.top, 60)
 
-            Text("Chưa có Reality Card nào")
+            Text("card.list.empty.headline")
                 .font(.headline)
                 .foregroundStyle(.primary)
 
-            Text("Tạo card đầu tiên để\nđối diện thực tế")
+            Text("card.list.empty.subheadline")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
-            GlassButton("＋ Tạo card đầu tiên", style: .primary) {
+            GlassButton(String(localized: "card.list.empty.cta"), style: .primary) {
                 showingCreateForm = true
             }
             .padding(.top, 4)
