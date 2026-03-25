@@ -67,6 +67,38 @@ import SwiftData
     .preferredColorScheme(.dark)
 }
 
+#Preview("Swipe actions") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: RealityCard.self, configurations: config)
+    let pinned = RealityCard(
+        title: "Runway",
+        type: .formula,
+        formula: .divide,
+        inputA: 300_000_000,
+        inputALabel: "Tiết kiệm",
+        inputB: 15_000_000,
+        inputBLabel: "Chi phí / tháng",
+        unit: "tháng",
+        contextLine: "← kéo trái để bỏ ghim / xoá",
+        isPinned: true
+    )
+    let unpinned = RealityCard(
+        title: "Chi phí tháng",
+        type: .manual,
+        value: 15_000_000,
+        unit: "VNĐ",
+        contextLine: "← kéo trái để ghim / xoá"
+    )
+    container.mainContext.insert(pinned)
+    container.mainContext.insert(unpinned)
+    return ZStack {
+        AuroraBackground()
+        CardListView()
+    }
+    .modelContainer(container)
+    .preferredColorScheme(.dark)
+}
+
 #Preview("Trống") {
     ZStack {
         AuroraBackground()
