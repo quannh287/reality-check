@@ -188,3 +188,14 @@ struct SettingsView: View {
         )
     }
 }
+
+#if os(iOS)
+#Preview {
+    NavigationStack {
+        SettingsView()
+    }
+    .modelContainer(for: RealityCard.self, inMemory: true)
+    .background(AuroraBackground())
+    .preferredColorScheme(.dark)
+}
+#endif

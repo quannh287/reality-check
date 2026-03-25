@@ -4,8 +4,9 @@ import SwiftUI
 struct GlassField: View {
     let placeholder: String
     @Binding var text: String
-    var keyboardType: UIKeyboardType = .default
     var font: Font = .body
+    #if canImport(UIKit)
+    var keyboardType: UIKeyboardType = .default
 
     init(_ placeholder: String, text: Binding<String>, keyboardType: UIKeyboardType = .default, font: Font = .body) {
         self.placeholder = placeholder
@@ -13,10 +14,19 @@ struct GlassField: View {
         self.keyboardType = keyboardType
         self.font = font
     }
+    #else
+    init(_ placeholder: String, text: Binding<String>, font: Font = .body) {
+        self.placeholder = placeholder
+        self._text = text
+        self.font = font
+    }
+    #endif
 
     var body: some View {
         TextField(placeholder, text: $text)
+            #if canImport(UIKit)
             .keyboardType(keyboardType)
+            #endif
             .font(font)
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
@@ -38,4 +48,19 @@ struct SectionLabel: View {
             .foregroundStyle(.tertiary)
             .padding(.leading, 4)
     }
+}
+
+#Preview {
+    @Previewable @State var title = ""
+    ZStack {
+        AuroraBackground()
+        VStack(alignment: .leading, spacing: 6) {
+            SectionLabel("Tiêu đề")
+            GlassField("Nhập tiêu đề...", text: $title)
+            SectionLabel("Giá trị")
+            GlassField("0", text: .constant("15000000"))
+        }
+        .padding()
+    }
+    .preferredColorScheme(.dark)
 }

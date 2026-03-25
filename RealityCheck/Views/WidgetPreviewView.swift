@@ -75,3 +75,24 @@ struct WidgetPreviewView: View {
         .shadow(color: accentColor.opacity(0.2), radius: 16, y: 8)
     }
 }
+
+#Preview {
+    ZStack {
+        AuroraBackground()
+        VStack(spacing: 24) {
+            WidgetPreviewView(
+                displayValue: "47",
+                unit: "ngày",
+                contextLine: "runway nếu nghỉ việc hôm nay",
+                accentColor: .auroraGreen
+            )
+            WidgetPreviewView(
+                displayValue: "20",
+                unit: "tháng",
+                contextLine: "còn sống được nếu nghỉ việc",
+                accentColor: .auroraTeal
+            )
+        }
+    }
+    .preferredColorScheme(.dark)
+}

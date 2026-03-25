@@ -3,6 +3,9 @@ import SwiftUI
 
 // MARK: - Corner radius helpers
 
+#if canImport(UIKit)
+import UIKit
+
 struct RoundedCorner: Shape {
     var radius: CGFloat
     var corners: UIRectCorner
@@ -22,6 +25,7 @@ extension View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
+#endif
 
 // MARK: - Glass surface ViewModifier
 
@@ -102,7 +106,6 @@ extension View {
 
     /// Glass row surface with custom corner radii (for grouped rows)
     func glassRow(topRadius: CGFloat = 14, bottomRadius: CGFloat = 14) -> some View {
-        // Build a single Path combining top and bottom rounded corners so we can stroke it
         self
             .background(.ultraThinMaterial.opacity(0.8))
             .overlay(
@@ -111,11 +114,11 @@ extension View {
                     startPoint: .top, endPoint: .bottom
                 )
             )
+            #if canImport(UIKit)
             .overlay(
                 GeometryReader { geo in
                     let r = geo.size
                     Path { p in
-                        // Combined shape: top rounded corners + bottom rounded corners
                         p.addPath(RoundedCorner(radius: topRadius, corners: [.topLeft, .topRight]).path(in: CGRect(origin: .zero, size: r)))
                         p.addPath(RoundedCorner(radius: bottomRadius, corners: [.bottomLeft, .bottomRight]).path(in: CGRect(origin: .zero, size: r)))
                     }
@@ -128,6 +131,7 @@ extension View {
                     )
                 }
             )
+            #endif
             .clipShape(
                 UnevenRoundedRectangle(
                     topLeadingRadius: topRadius,
