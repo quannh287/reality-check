@@ -39,15 +39,15 @@ struct SettingsView: View {
 
                 // Thông báo section
                 VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel("Thông báo hàng ngày")
+                    SectionLabel(String(localized: "settings.notification.section"))
 
                     VStack(spacing: 1) {
                         // Toggle row
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Bật thông báo")
+                                Text("settings.notification.toggle.title")
                                     .font(.system(size: 14, weight: .medium))
-                                Text("Nhắc nhở Reality Card mỗi ngày")
+                                Text("settings.notification.toggle.subtitle")
                                     .font(.caption)
                                     .foregroundStyle(.tertiary)
                             }
@@ -69,9 +69,9 @@ struct SettingsView: View {
                         // Time row
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Thời gian nhắc")
+                                Text("settings.notification.time.title")
                                     .font(.system(size: 14, weight: .medium))
-                                Text("Mỗi ngày vào lúc")
+                                Text("settings.notification.time.subtitle")
                                     .font(.caption)
                                     .foregroundStyle(.tertiary)
                             }
@@ -110,7 +110,7 @@ struct SettingsView: View {
                                 .fill(Color.auroraGreen)
                                 .frame(width: 7, height: 7)
                                 .shadow(color: .auroraGreen.opacity(0.7), radius: 4)
-                            Text("Đã lên lịch · Mỗi ngày \(timeString)")
+                            Text("settings.notification.status.on \(timeString)")
                                 .font(.system(size: 11, weight: .semibold))
                                 .foregroundStyle(Color.auroraGreen.opacity(0.85))
                         }
@@ -124,7 +124,7 @@ struct SettingsView: View {
                             Image(systemName: "bell.slash")
                                 .font(.system(size: 11))
                                 .foregroundStyle(.quaternary)
-                            Text("Thông báo đã tắt")
+                            Text("settings.notification.status.off")
                                 .font(.system(size: 11))
                                 .foregroundStyle(.quaternary)
                         }
@@ -138,11 +138,11 @@ struct SettingsView: View {
 
                 // Widget section
                 VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel("Widget")
+                    SectionLabel(String(localized: "settings.widget.section"))
 
                     VStack(spacing: 1) {
                         HStack {
-                            Text("Đang hiển thị")
+                            Text("settings.widget.showing")
                                 .font(.system(size: 14, weight: .medium))
                             Spacer()
                             Text(pinnedCards.first?.title ?? "--")
@@ -157,11 +157,11 @@ struct SettingsView: View {
                             WidgetCenter.shared.reloadAllTimelines()
                         } label: {
                             HStack {
-                                Text("Làm mới widget")
+                                Text("settings.widget.refresh")
                                     .font(.system(size: 14, weight: .medium))
                                     .foregroundStyle(.primary)
                                 Spacer()
-                                Text("Làm mới ↺")
+                                Text("settings.widget.refresh.action")
                                     .font(.system(size: 13, weight: .semibold))
                                     .foregroundStyle(Color.auroraTeal)
                             }
@@ -175,7 +175,7 @@ struct SettingsView: View {
             }
             .padding(16)
         }
-        .navigationTitle("Cài đặt")
+        .navigationTitle(String(localized: "settings.title"))
         .onAppear {
             if notificationEnabled { updateNotification() }
         }
