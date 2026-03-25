@@ -14,6 +14,14 @@ final class CardListViewModel {
         WidgetCenter.shared.reloadAllTimelines()
     }
 
+    func unpinCard(_ card: RealityCard, context: ModelContext) {
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+            card.isPinned = false
+            card.updatedAt = Date()
+        }
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
     func deleteCard(_ card: RealityCard, context: ModelContext) {
         context.delete(card)
     }
