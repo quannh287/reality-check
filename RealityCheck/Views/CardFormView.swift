@@ -1,3 +1,4 @@
+// RealityCheck/Views/CardFormView.swift
 import SwiftUI
 import SwiftData
 import WidgetKit
@@ -22,6 +23,8 @@ struct CardFormView: View {
 
     private var isEditing: Bool { card != nil }
 
+    // MARK: - Preview value
+
     private var previewDisplayValue: String {
         switch type {
         case .manual:
@@ -30,7 +33,8 @@ struct CardFormView: View {
         case .formula:
             switch formula {
             case .divide:
-                guard let a = Double(inputA), let b = Double(inputB), b != 0 else { return "--" }
+                guard let a = Double(inputA), let b = Double(inputB) else { return "--" }
+                if b == 0 { return "∞" }
                 return FormulaEngine.formatNumber(a / b)
             case .count:
                 guard let a = Double(inputA), let b = Double(inputB) else { return "--" }
@@ -45,61 +49,28 @@ struct CardFormView: View {
         }
     }
 
+    private var previewAccentColor: Color {
+        switch type {
+        case .manual: return .auroraRed
+        case .formula: return formula.accentColor
+        }
+    }
+
+    private var canSave: Bool {
+        !title.isEmpty && !unit.isEmpty && !contextLine.isEmpty
+    }
+
+    // MARK: - Body
+
     var body: some View {
-        Form {
-            Section("Thông tin") {
-                TextField("Tiêu đề", text: $title)
-                Picker("Loại", selection: $type) {
-                    Text("Manual").tag(CardType.manual)
-                    Text("Formula").tag(CardType.formula)
-                }
-                .pickerStyle(.segmented)
-            }
+        HStack(spacing: 0) {
+            formPanel
+                .frame(maxWidth: .infinity)
 
-            if type == .manual {
-                Section("Giá trị") {
-                    TextField("Giá trị", text: $value)
-                        .keyboardType(.decimalPad)
-                }
-            } else {
-                Section("Formula") {
-                    Picker("Công thức", selection: $formula) {
-                        Text("Chia (A ÷ B)").tag(FormulaType.divide)
-                        Text("Đếm (A / B)").tag(FormulaType.count)
-                        Text("Trừ (A − B)").tag(FormulaType.subtract)
-                        Text("Countdown").tag(FormulaType.countdown)
-                    }
+            Divider().opacity(0.1)
 
-                    if formula == .countdown {
-                        DatePicker("Ngày đích", selection: $targetDate, displayedComponents: .date)
-                    } else {
-                        TextField("Tên Input A", text: $inputALabel)
-                        TextField("Giá trị A", text: $inputA)
-                            .keyboardType(.decimalPad)
-                        TextField("Tên Input B", text: $inputBLabel)
-                        TextField("Giá trị B", text: $inputB)
-                            .keyboardType(.decimalPad)
-                    }
-                }
-            }
-
-            Section("Hiển thị") {
-                TextField("Đơn vị (ngày, tháng, triệu...)", text: $unit)
-                TextField("Context line", text: $contextLine)
-            }
-
-            Section("Preview") {
-                HStack {
-                    Spacer()
-                    WidgetPreviewView(
-                        displayValue: previewDisplayValue,
-                        unit: unit,
-                        contextLine: contextLine
-                    )
-                    Spacer()
-                }
-                .listRowBackground(Color.clear)
-            }
+            previewPanel
+                .frame(width: 200)
         }
         .navigationTitle(isEditing ? "Sửa Card" : "Tạo Card")
         .navigationBarTitleDisplayMode(.inline)
@@ -110,22 +81,234 @@ struct CardFormView: View {
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("Lưu") { save() }
-                    .disabled(title.isEmpty || unit.isEmpty || contextLine.isEmpty)
+                GlassButton("Lưu", style: .primary, isDisabled: !canSave) { save() }
             }
         }
         .onAppear { loadCard() }
     }
 
+    // MARK: - Form panel
+
+    private var formPanel: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+
+                // Title + type
+                VStack(alignment: .leading, spacing: 8) {
+                    SectionLabel("Thông tin")
+                    GlassField("Tiêu đề", text: $title)
+                    segmentedTypePicker
+                }
+
+                // Conditional inputs
+                if type == .manual {
+                    VStack(alignment: .leading, spacing: 8) {
+                        SectionLabel("Giá trị")
+                        GlassField("Số liệu", text: $value, keyboardType: .decimalPad)
+                    }
+                } else {
+                    VStack(alignment: .leading, spacing: 8) {
+                        SectionLabel("Công thức")
+                        FormulaChip(selected: $formula)
+                    }
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        SectionLabel("Inputs")
+                        formulaInputs
+                    }
+                }
+
+                // Display
+                VStack(alignment: .leading, spacing: 8) {
+                    SectionLabel("Hiển thị")
+                    GlassField("Đơn vị (ngày, tháng, triệu...)", text: $unit)
+                    GlassField("Context line", text: $contextLine)
+                }
+
+                // Actions
+                if isEditing {
+                    HStack(spacing: 8) {
+                        pinButton
+                        deleteButton
+                    }
+                    .padding(.top, 4)
+                }
+            }
+            .padding(16)
+        }
+    }
+
+    // MARK: - Segmented type picker
+
+    private var segmentedTypePicker: some View {
+        HStack(spacing: 0) {
+            ForEach([CardType.manual, CardType.formula], id: \.self) { t in
+                Button {
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) { type = t }
+                } label: {
+                    Text(t == .manual ? "Manual" : "Formula")
+                        .font(.system(size: 12, weight: type == t ? .semibold : .regular))
+                        .foregroundStyle(type == t ? .primary : .secondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 7)
+                        .background(
+                            type == t
+                                ? RoundedRectangle(cornerRadius: 8)
+                                    .fill(.ultraThinMaterial)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                                    )
+                                : nil
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(3)
+        .background(Color.white.opacity(0.05))
+        .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(Color.white.opacity(0.08), lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+
+    // MARK: - Formula inputs
+
+    @ViewBuilder
+    private var formulaInputs: some View {
+        if formula == .countdown {
+            // Date picker with glass style
+            HStack {
+                Image(systemName: "calendar")
+                    .foregroundStyle(.secondary)
+                DatePicker("Ngày đích", selection: $targetDate, displayedComponents: .date)
+                    .labelsHidden()
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .glassField()
+
+            if previewDisplayValue != "--" {
+                Text("→ \(previewDisplayValue) ngày còn lại")
+                    .font(.caption)
+                    .foregroundStyle(Color.auroraGreen.opacity(0.8))
+                    .padding(.leading, 4)
+            }
+        } else {
+            // A/B inputs
+            VStack(spacing: 6) {
+                HStack(spacing: 8) {
+                    Text("A")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundStyle(.tertiary)
+                        .frame(width: 14)
+                    GlassField("Tên (VD: Doanh số)", text: $inputALabel)
+                    GlassField("Giá trị", text: $inputA, keyboardType: .decimalPad)
+                        .frame(width: 80)
+                }
+                HStack(spacing: 8) {
+                    Text("B")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundStyle(.tertiary)
+                        .frame(width: 14)
+                    GlassField("Tên (VD: Mục tiêu)", text: $inputBLabel)
+                    GlassField("Giá trị", text: $inputB, keyboardType: .decimalPad)
+                        .frame(width: 80)
+                }
+            }
+        }
+    }
+
+    // MARK: - Pin / Delete buttons
+
+    private var pinButton: some View {
+        let isPinned = card?.isPinned ?? false
+        return Button {
+            if let card {
+                withAnimation {
+                    for c in (try? modelContext.fetch(FetchDescriptor<RealityCard>())) ?? [] where c.isPinned {
+                        c.isPinned = false
+                    }
+                    card.isPinned = !isPinned
+                    card.updatedAt = Date()
+                }
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+        } label: {
+            Label(isPinned ? "Bỏ pin" : "Pin lên widget", systemImage: isPinned ? "pin.slash" : "pin")
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .modifier(GlassSurfaceModifier(cornerRadius: 10, shadowRadius: 4))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var deleteButton: some View {
+        Button(role: .destructive) {
+            if let card { modelContext.delete(card) }
+            WidgetCenter.shared.reloadAllTimelines()
+            dismiss()
+        } label: {
+            Image(systemName: "trash")
+                .font(.system(size: 14))
+                .foregroundStyle(Color.auroraRed.opacity(0.7))
+                .frame(width: 36, height: 36)
+                .modifier(GlassSurfaceModifier(
+                    accent: .auroraRed, accentOpacity: 0.08,
+                    cornerRadius: 10, shadowRadius: 4
+                ))
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Preview panel
+
+    private var previewPanel: some View {
+        VStack(spacing: 14) {
+            SectionLabel("Preview")
+
+            WidgetPreviewView(
+                displayValue: previewDisplayValue,
+                unit: unit,
+                contextLine: contextLine,
+                accentColor: previewAccentColor
+            )
+            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: previewDisplayValue)
+            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: previewAccentColor)
+
+            // Live badge
+            HStack(spacing: 5) {
+                Circle()
+                    .fill(Color.auroraGreen)
+                    .frame(width: 6, height: 6)
+                    .shadow(color: .auroraGreen.opacity(0.8), radius: 4)
+                Text("Live preview")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(Color.auroraGreen.opacity(0.85))
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(Color.auroraGreen.opacity(0.1))
+            .overlay(Capsule().strokeBorder(Color.auroraGreen.opacity(0.22), lineWidth: 1))
+            .clipShape(Capsule())
+
+            Spacer()
+        }
+        .padding(16)
+    }
+
+    // MARK: - Load / Save
+
     private func loadCard() {
         guard let card else { return }
         title = card.title
         type = card.type
-        value = card.value.map { "\($0)" } ?? ""
+        value = card.value.map { String($0) } ?? ""
         formula = card.formula ?? .divide
-        inputA = card.inputA.map { "\($0)" } ?? ""
+        inputA = card.inputA.map { String($0) } ?? ""
         inputALabel = card.inputALabel ?? ""
-        inputB = card.inputB.map { "\($0)" } ?? ""
+        inputB = card.inputB.map { String($0) } ?? ""
         inputBLabel = card.inputBLabel ?? ""
         targetDate = card.targetDate ?? Date()
         unit = card.unit

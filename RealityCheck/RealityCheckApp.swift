@@ -1,3 +1,4 @@
+// RealityCheck/RealityCheckApp.swift
 import SwiftUI
 import SwiftData
 
@@ -10,7 +11,14 @@ struct RealityCheckApp: App {
     var body: some Scene {
         WindowGroup {
             CardListView()
+                .background(AuroraBackground())
+                .preferredColorScheme(.dark)
         }
-        .modelContainer(for: RealityCard.self)
+        .modelContainer(
+            try! ModelContainer(
+                for: RealityCard.self,
+                configurations: AppGroupContainer.modelConfiguration
+            )
+        )
     }
 }

@@ -1,34 +1,77 @@
+// RealityCheck/Views/WidgetPreviewView.swift
 import SwiftUI
 
 struct WidgetPreviewView: View {
     let displayValue: String
     let unit: String
     let contextLine: String
+    var accentColor: Color = .auroraRed
 
     var body: some View {
-        VStack(spacing: 2) {
-            Text(displayValue)
-                .font(.system(size: 36, weight: .heavy))
-                .foregroundStyle(Color(red: 1, green: 0.267, blue: 0.267))
-            Text(unit.uppercased())
-                .font(.system(size: 11, weight: .medium))
-                .foregroundStyle(.secondary)
-                .tracking(1)
-            Text(contextLine)
-                .font(.system(size: 10))
-                .foregroundStyle(.tertiary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 12)
-                .padding(.top, 4)
+        ZStack {
+            // Glass background
+            RoundedRectangle(cornerRadius: 22)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    LinearGradient(
+                        colors: [
+                            accentColor.opacity(0.25),
+                            accentColor.opacity(0.08),
+                            accentColor.opacity(0.15)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 22)
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [
+                                    accentColor.opacity(0.5),
+                                    accentColor.opacity(0.2),
+                                    accentColor.opacity(0.1)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1
+                        )
+                )
+
+            // Orb overlay (static in preview)
+            Circle()
+                .fill(accentColor.opacity(0.22))
+                .frame(width: 80, height: 80)
+                .blur(radius: 30)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                .offset(x: 10, y: -10)
+
+            // Content
+            VStack(spacing: 2) {
+                Text(displayValue)
+                    .font(.system(size: 36, weight: .heavy))
+                    .foregroundStyle(accentColor)
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(1)
+                Text(unit.uppercased())
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(.secondary)
+                    .tracking(1)
+                Text(contextLine)
+                    .font(.system(size: 10))
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 4)
+            }
+            .padding(12)
+
+            // Shimmer
+            ShimmerView()
+                .clipShape(RoundedRectangle(cornerRadius: 22))
         }
         .frame(width: 155, height: 155)
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.black)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(.quaternary)
-                )
-        )
+        .shadow(color: accentColor.opacity(0.2), radius: 16, y: 8)
     }
 }

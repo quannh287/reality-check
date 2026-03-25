@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+import UserNotifications
 @testable import RealityCheck
 
 @Suite("NotificationService")

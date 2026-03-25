@@ -1,3 +1,4 @@
+// RealityCheck/Views/CardListView.swift
 import SwiftUI
 import SwiftData
 import WidgetKit
@@ -6,97 +7,148 @@ struct CardListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \RealityCard.updatedAt, order: .reverse) private var cards: [RealityCard]
     @State private var showingCreateForm = false
+    @State private var showingSettings = false
+    @State private var appeared = false
+    @Namespace private var namespace
 
-    private var pinnedCard: RealityCard? {
-        cards.first(where: \.isPinned)
-    }
-
-    private var unpinnedCards: [RealityCard] {
-        cards.filter { !$0.isPinned }
-    }
+    private var pinnedCard: RealityCard? { cards.first(where: \.isPinned) }
+    private var unpinnedCards: [RealityCard] { cards.filter { !$0.isPinned } }
 
     var body: some View {
         NavigationStack {
-            List {
-                if let pinned = pinnedCard {
-                    Section {
-                        CardRowView(card: pinned)
-                            .listRowBackground(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color(red: 1, green: 0.267, blue: 0.267), lineWidth: 1)
-                                    .background(RoundedRectangle(cornerRadius: 8).fill(.clear))
-                            )
-                    } header: {
-                        Label("Đang hiện trên Widget", systemImage: "pin.fill")
+            ScrollView {
+                VStack(spacing: 10) {
+                    if cards.isEmpty {
+                        emptyState
+                    } else {
+                        cardContent
                     }
                 }
-
-                Section {
-                    if unpinnedCards.isEmpty && pinnedCard == nil {
-                        ContentUnavailableView(
-                            "Chưa có Reality Card nào",
-                            systemImage: "rectangle.stack.badge.plus",
-                            description: Text("Tạo card đầu tiên để đối diện thực tế")
-                        )
-                    }
-                    ForEach(unpinnedCards) { card in
-                        NavigationLink(value: card) {
-                            CardRowView(card: card)
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                modelContext.delete(card)
-                            } label: {
-                                Label("Xoá", systemImage: "trash")
-                            }
-                        }
-                        .swipeActions(edge: .leading) {
-                            Button {
-                                pinCard(card)
-                            } label: {
-                                Label("Pin", systemImage: "pin")
-                            }
-                            .tint(.orange)
-                        }
-                    }
-                } header: {
-                    if pinnedCard != nil {
-                        Text("Các card khác")
-                    }
-                }
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+                .padding(.bottom, 24)
             }
             .navigationTitle("Reality Check")
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        showingCreateForm = true
-                    } label: {
+                    Button { showingCreateForm = true } label: {
                         Image(systemName: "plus")
+                            .fontWeight(.semibold)
                     }
                 }
                 ToolbarItem(placement: .automatic) {
-                    NavigationLink(destination: SettingsView()) {
-                        Image(systemName: "gear")
+                    Button { showingSettings = true } label: {
+                        Image(systemName: "gearshape")
                     }
                 }
             }
+            .navigationDestination(isPresented: $showingSettings) {
+                SettingsView()
+            }
             .navigationDestination(for: RealityCard.self) { card in
                 CardFormView(card: card)
+                    .navigationTransition(.zoom(sourceID: card.id, in: namespace))
             }
             .sheet(isPresented: $showingCreateForm) {
-                NavigationStack {
-                    CardFormView(card: nil)
+                NavigationStack { CardFormView(card: nil) }
+            }
+        }
+        .onAppear {
+            withAnimation(.spring(duration: 0.4)) { appeared = true }
+        }
+    }
+
+    // MARK: - Card content
+
+    @ViewBuilder
+    private var cardContent: some View {
+        // Pinned section
+        if let pinned = pinnedCard {
+            SectionLabel("📍 Widget hiện tại")
+                .opacity(appeared ? 1 : 0)
+                .offset(y: appeared ? 0 : 8)
+                .animation(.spring(duration: 0.4), value: appeared)
+
+            NavigationLink(value: pinned) {
+                GlassCard(card: pinned, style: .pinned)
+            }
+            .buttonStyle(.plain)
+            .matchedTransitionSource(id: pinned.id, in: namespace)
+            .opacity(appeared ? 1 : 0)
+            .offset(y: appeared ? 0 : 8)
+            .animation(.spring(duration: 0.4).delay(0.06), value: appeared)
+        }
+
+        // Unpinned section
+        if !unpinnedCards.isEmpty {
+            if pinnedCard != nil {
+                SectionLabel("Các card khác")
+                    .padding(.top, 4)
+                    .opacity(appeared ? 1 : 0)
+                    .animation(.spring(duration: 0.4).delay(0.03), value: appeared)
+            }
+
+            ForEach(Array(unpinnedCards.enumerated()), id: \.element.id) { index, card in
+                NavigationLink(value: card) {
+                    GlassCard(card: card, style: .unpinned)
                 }
+                .buttonStyle(.plain)
+                .matchedTransitionSource(id: card.id, in: namespace)
+                .contextMenu {
+                    Button { pinCard(card) } label: {
+                        Label("Pin lên widget", systemImage: "pin")
+                    }
+                    Button(role: .destructive) {
+                        modelContext.delete(card)
+                    } label: {
+                        Label("Xoá", systemImage: "trash")
+                    }
+                }
+                .opacity(appeared ? 1 : 0)
+                .offset(y: appeared ? 0 : 10)
+                .animation(
+                    .spring(duration: 0.4).delay(Double(index + 1) * 0.06),
+                    value: appeared
+                )
             }
         }
     }
 
-    private func pinCard(_ card: RealityCard) {
-        for c in cards where c.isPinned {
-            c.isPinned = false
+    // MARK: - Empty state
+
+    private var emptyState: some View {
+        VStack(spacing: 16) {
+            Image(systemName: "rectangle.stack.badge.plus")
+                .font(.system(size: 40))
+                .foregroundStyle(.quaternary)
+                .padding(.top, 60)
+
+            Text("Chưa có Reality Card nào")
+                .font(.headline)
+                .foregroundStyle(.secondary)
+
+            Text("Tạo card đầu tiên để\nđối diện thực tế")
+                .font(.subheadline)
+                .foregroundStyle(.tertiary)
+                .multilineTextAlignment(.center)
+
+            GlassButton("＋ Tạo card đầu tiên", style: .primary) {
+                showingCreateForm = true
+            }
+            .padding(.top, 4)
         }
-        card.isPinned = true
-        card.updatedAt = Date()
+        .frame(maxWidth: .infinity)
+    }
+
+    // MARK: - Actions
+
+    private func pinCard(_ card: RealityCard) {
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+            for c in cards where c.isPinned { c.isPinned = false }
+            card.isPinned = true
+            card.updatedAt = Date()
+        }
         WidgetCenter.shared.reloadAllTimelines()
     }
 }
