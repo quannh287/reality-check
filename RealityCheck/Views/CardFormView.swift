@@ -22,6 +22,13 @@ struct CardFormView: View {
 
     private var isEditing: Bool { card != nil }
 
+    private var previewAccentColor: Color {
+        switch type {
+        case .manual: return .auroraRed
+        case .formula: return formula.accentColor
+        }
+    }
+
     private var previewDisplayValue: String {
         switch type {
         case .manual:
@@ -94,7 +101,8 @@ struct CardFormView: View {
                     WidgetPreviewView(
                         displayValue: previewDisplayValue,
                         unit: unit,
-                        contextLine: contextLine
+                        contextLine: contextLine,
+                        accentColor: previewAccentColor
                     )
                     Spacer()
                 }
