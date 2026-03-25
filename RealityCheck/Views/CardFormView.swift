@@ -33,7 +33,8 @@ struct CardFormView: View {
         case .formula:
             switch formula {
             case .divide:
-                guard let a = Double(inputA), let b = Double(inputB), b != 0 else { return "--" }
+                guard let a = Double(inputA), let b = Double(inputB) else { return "--" }
+                if b == 0 { return "∞" }
                 return FormulaEngine.formatNumber(a / b)
             case .count:
                 guard let a = Double(inputA), let b = Double(inputB) else { return "--" }
@@ -125,11 +126,13 @@ struct CardFormView: View {
                 }
 
                 // Actions
-                HStack(spacing: 8) {
-                    pinButton
-                    if isEditing { deleteButton }
+                if isEditing {
+                    HStack(spacing: 8) {
+                        pinButton
+                        deleteButton
+                    }
+                    .padding(.top, 4)
                 }
-                .padding(.top, 4)
             }
             .padding(16)
         }
@@ -239,8 +242,6 @@ struct CardFormView: View {
                 .modifier(GlassSurfaceModifier(cornerRadius: 10, shadowRadius: 4))
         }
         .buttonStyle(.plain)
-        .opacity(isEditing ? 1 : 0)
-        .disabled(!isEditing)
     }
 
     private var deleteButton: some View {
@@ -274,7 +275,7 @@ struct CardFormView: View {
                 accentColor: previewAccentColor
             )
             .animation(.spring(response: 0.35, dampingFraction: 0.6), value: previewDisplayValue)
-            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: previewAccentColor.description)
+            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: previewAccentColor)
 
             // Live badge
             HStack(spacing: 5) {
