@@ -82,4 +82,20 @@ Tests use Swift Testing (`@Suite`, `@Test`), not XCTest. Edge cases: divide-by-z
 
 ### UI Language
 
-App UI text is in Vietnamese.
+App UI text is in Vietnamese. Respond to the user in Vietnamese.
+
+### Localization
+
+UI strings dùng `Localizable.xcstrings` (String Catalog). Không hardcode chuỗi trực tiếp trong View — dùng `String(localized: "key")` hoặc `Text("key")` (SwiftUI tự resolve key từ catalog).
+
+### Xcode Project — PBXFileSystemSynchronizedRootGroup
+
+Target `RealityCheck` dùng **`PBXFileSystemSynchronizedRootGroup`**: Xcode tự động include toàn bộ file trong thư mục `RealityCheck/` vào target mà không cần đăng ký thủ công trong `project.pbxproj`. **Không thêm `PBXBuildFile` hoặc `PBXFileReference` thủ công** cho các file trong thư mục này — sẽ gây lỗi duplicate (ví dụ: `Cannot have multiple Localizable.xcstrings files in same target`).
+
+### Git Worktrees
+
+Worktree để làm việc song song nên đặt ở `worktrees/<tên-branch>` trong project root (đã có trong `.gitignore`). Không đặt worktree trong `.claude/worktrees/` — thư mục `.claude/` được git track nên worktree bên trong sẽ bị commit lên.
+
+### SourceKit False Positives trong Worktree
+
+Khi worktree nằm bên trong project root (ví dụ `worktrees/feature-x/`), SourceKit của Xcode có thể báo lỗi giả (`Cannot find type`, `No such module`) cho các file trong worktree vì không có project context. Đây là **false positive** — dùng `xcodebuild` để xác nhận build thực tế, không dựa vào SourceKit diagnostics.
