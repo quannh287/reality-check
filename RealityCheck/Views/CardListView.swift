@@ -9,6 +9,7 @@ struct CardListView: View {
     @State private var showingCreateForm = false
     @State private var showingSettings = false
     @State private var appeared = false
+    @Namespace private var namespace
 
     private var pinnedCard: RealityCard? { cards.first(where: \.isPinned) }
     private var unpinnedCards: [RealityCard] { cards.filter { !$0.isPinned } }
@@ -47,6 +48,7 @@ struct CardListView: View {
             }
             .navigationDestination(for: RealityCard.self) { card in
                 CardFormView(card: card)
+                    .navigationTransition(.zoom(sourceID: card.id, in: namespace))
             }
             .sheet(isPresented: $showingCreateForm) {
                 NavigationStack { CardFormView(card: nil) }
@@ -72,6 +74,7 @@ struct CardListView: View {
                 GlassCard(card: pinned, style: .pinned)
             }
             .buttonStyle(.plain)
+            .matchedTransitionSource(id: pinned.id, in: namespace)
             .opacity(appeared ? 1 : 0)
             .offset(y: appeared ? 0 : 8)
             .animation(.spring(duration: 0.4).delay(0.06), value: appeared)
@@ -91,6 +94,7 @@ struct CardListView: View {
                     GlassCard(card: card, style: .unpinned)
                 }
                 .buttonStyle(.plain)
+                .matchedTransitionSource(id: card.id, in: namespace)
                 .contextMenu {
                     Button { pinCard(card) } label: {
                         Label("Pin lên widget", systemImage: "pin")
