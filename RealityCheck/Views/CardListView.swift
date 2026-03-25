@@ -29,9 +29,7 @@ struct CardListView: View {
                 .padding(.bottom, 24)
             }
             .navigationTitle("Reality Check")
-            #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
-            #endif
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button { showingCreateForm = true } label: {
@@ -50,9 +48,7 @@ struct CardListView: View {
             }
             .navigationDestination(for: RealityCard.self) { card in
                 CardFormView(card: card)
-                    #if os(iOS)
                     .navigationTransition(.zoom(sourceID: card.id, in: namespace))
-                    #endif
             }
             .sheet(isPresented: $showingCreateForm) {
                 NavigationStack { CardFormView(card: nil) }
@@ -78,9 +74,7 @@ struct CardListView: View {
                 GlassCard(card: pinned, style: .pinned)
             }
             .buttonStyle(.plain)
-            #if os(iOS)
             .matchedTransitionSource(id: pinned.id, in: namespace)
-            #endif
             .opacity(appeared ? 1 : 0)
             .offset(y: appeared ? 0 : 8)
             .animation(.spring(duration: 0.4).delay(0.06), value: appeared)
@@ -100,9 +94,7 @@ struct CardListView: View {
                     GlassCard(card: card, style: .unpinned)
                 }
                 .buttonStyle(.plain)
-                #if os(iOS)
                 .matchedTransitionSource(id: card.id, in: namespace)
-                #endif
                 .contextMenu {
                     Button { pinCard(card) } label: {
                         Label("Pin lên widget", systemImage: "pin")
@@ -161,7 +153,6 @@ struct CardListView: View {
     }
 }
 
-#if os(iOS)
 #Preview("Có cards") {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: RealityCard.self, configurations: config)
@@ -199,4 +190,3 @@ struct CardListView: View {
     .modelContainer(for: RealityCard.self, inMemory: true)
     .preferredColorScheme(.dark)
 }
-#endif

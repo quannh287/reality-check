@@ -73,9 +73,7 @@ struct CardFormView: View {
                 .frame(width: 200)
         }
         .navigationTitle(isEditing ? "Sửa Card" : "Tạo Card")
-        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        #endif
         .toolbar {
             if !isEditing {
                 ToolbarItem(placement: .cancellationAction) {
@@ -106,11 +104,7 @@ struct CardFormView: View {
                 if type == .manual {
                     VStack(alignment: .leading, spacing: 8) {
                         SectionLabel("Giá trị")
-                        #if os(iOS)
                         GlassField("Số liệu", text: $value, keyboardType: .decimalPad)
-                        #else
-                        GlassField("Số liệu", text: $value)
-                        #endif
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
@@ -208,13 +202,8 @@ struct CardFormView: View {
                         .foregroundStyle(.tertiary)
                         .frame(width: 14)
                     GlassField("Tên (VD: Doanh số)", text: $inputALabel)
-                    #if os(iOS)
                     GlassField("Giá trị", text: $inputA, keyboardType: .decimalPad)
                         .frame(width: 80)
-                    #else
-                    GlassField("Giá trị", text: $inputA)
-                        .frame(width: 80)
-                    #endif
                 }
                 HStack(spacing: 8) {
                     Text("B")
@@ -222,13 +211,8 @@ struct CardFormView: View {
                         .foregroundStyle(.tertiary)
                         .frame(width: 14)
                     GlassField("Tên (VD: Mục tiêu)", text: $inputBLabel)
-                    #if os(iOS)
                     GlassField("Giá trị", text: $inputB, keyboardType: .decimalPad)
                         .frame(width: 80)
-                    #else
-                    GlassField("Giá trị", text: $inputB)
-                        .frame(width: 80)
-                    #endif
                 }
             }
         }
@@ -366,7 +350,6 @@ struct CardFormView: View {
     }
 }
 
-#if os(iOS)
 #Preview("Tạo mới") {
     NavigationStack {
         CardFormView(card: nil)
@@ -398,4 +381,3 @@ struct CardFormView: View {
     .background(AuroraBackground())
     .preferredColorScheme(.dark)
 }
-#endif

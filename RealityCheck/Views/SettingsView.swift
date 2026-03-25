@@ -189,7 +189,6 @@ struct SettingsView: View {
     }
 }
 
-#if os(iOS)
 #Preview {
     NavigationStack {
         SettingsView()
@@ -198,4 +197,3 @@ struct SettingsView: View {
     .background(AuroraBackground())
     .preferredColorScheme(.dark)
 }
-#endif
