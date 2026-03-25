@@ -22,7 +22,7 @@ struct RealityCheckEntry: TimelineEntry {
 struct RealityCheckProvider: TimelineProvider {
     private static let emptyEntry = RealityCheckEntry(
         date: Date(), displayValue: "--", title: "",
-        unit: "", contextLine: "Mở app để tạo Reality Card đầu tiên",
+        unit: "", contextLine: String(localized: "widget.empty.context"),
         hasCard: false, formula: nil, cardType: .manual, progressValue: nil
     )
 
@@ -239,7 +239,7 @@ struct RealityCheckWidgetBundle: Widget {
                 )
         }
         .configurationDisplayName("Reality Check")
-        .description("Hiện Reality Card trên home screen")
+        .description("widget.description")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
