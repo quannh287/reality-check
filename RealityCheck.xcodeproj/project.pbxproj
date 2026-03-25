@@ -189,6 +189,7 @@
 			);
 			name = RealityCheck;
 			packageProductDependencies = (
+				95D755F3518F4EAF8F5E7EC9 /* DebugSwift */,
 			);
 			productName = RealityCheck;
 			productReference = 5A9076CA2F7141A80026035B /* RealityCheck.app */;
@@ -306,6 +307,9 @@
 					ProjectRef = 5A0079E22F73E3020076ECB1 /* RealityCheck.xcodeproj */;
 				},
 			);
+			packageReferences = (
+				F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */,
+			);
 			projectRoot = "";
 			targets = (
 				5A9076C92F7141A80026035B /* RealityCheck */,
@@ -395,6 +399,25 @@
 			targetProxy = 5A9077182F7142240026035B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DebugSwift/DebugSwift";
+			requirement = {
+				kind = revision;
+				revision = dcab247caa279bc039513909742f0664c67035d1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		95D755F3518F4EAF8F5E7EC9 /* DebugSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */;
+			productName = DebugSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5A9076EB2F7141AA0026035B /* Debug */ = {
