@@ -31,6 +31,7 @@ struct FormulaChip: View {
             VStack(spacing: 3) {
                 Text(option.icon)
                     .font(.system(size: 14))
+                    .foregroundStyle(isSelected ? accent : .secondary)
                 Text(option.label)
                     .font(.system(size: 10, weight: isSelected ? .bold : .regular))
                     .foregroundStyle(isSelected ? accent : .secondary)
@@ -45,5 +46,7 @@ struct FormulaChip: View {
             ))
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(option.label)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
