@@ -6,12 +6,13 @@ enum NotificationService {
 
     static func buildContent(for card: RealityCard?) -> UNMutableNotificationContent {
         let content = UNMutableNotificationContent()
-        content.title = "Reality Check"
+        content.title = String(localized: "notification.title")
         if let card {
             let value = FormulaEngine.displayValue(for: card)
-            content.body = "\(value) \(card.unit) — \(card.contextLine)"
+            let format = String(localized: "notification.body.format")
+            content.body = String(format: format, value, card.unit, card.contextLine)
         } else {
-            content.body = "Mở app để tạo Reality Card đầu tiên"
+            content.body = String(localized: "notification.body.empty")
         }
         content.sound = .default
         return content
