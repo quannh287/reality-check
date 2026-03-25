@@ -51,6 +51,7 @@ struct GlassCard: View {
                             .font(.system(size: 38, weight: .heavy))
                             .foregroundStyle(accentColor)
                             .minimumScaleFactor(0.6)
+                            .lineLimit(1)
                         Text(card.unit)
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -63,7 +64,7 @@ struct GlassCard: View {
 
                 Spacer()
 
-                Text(card.type.rawValue)
+                Text(card.type.displayName)
                     .font(.system(size: 8, weight: .semibold))
                     .padding(.horizontal, 7)
                     .padding(.vertical, 3)
@@ -77,6 +78,8 @@ struct GlassCard: View {
             }
 
             if let progress = progressValue {
+                // Progress bar uses warm urgency gradient (red→orange→yellow) regardless of card accent
+                // to convey "completion toward a goal" visually distinct from the card's formula type color
                 ProgressView(value: progress)
                     .tint(
                         LinearGradient(
@@ -122,5 +125,15 @@ struct GlassCard: View {
         .padding(.vertical, 12)
         .glassCard(accent: accentColor, accentOpacity: 0.12)
         .overlay(ShimmerView().clipShape(RoundedRectangle(cornerRadius: 16)))
+    }
+}
+
+// MARK: - CardType Extension
+private extension CardType {
+    var displayName: String {
+        switch self {
+        case .manual:  return "thủ công"
+        case .formula: return "công thức"
+        }
     }
 }
