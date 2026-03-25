@@ -19,6 +19,7 @@ extension Color {
     static let auroraPurple = Color(hex: "#c77dff")
     static let auroraRed    = Color(hex: "#ff6b6b")
     static let auroraYellow = Color(hex: "#ffd93d")
+    static let auroraBlue   = Color(hex: "#00b4ff")
 }
 
 // MARK: - Accent color per formula type
@@ -69,7 +70,7 @@ struct AuroraBackground: View {
 
                 // Orb 2 — blue, top-right, 10s
                 Circle()
-                    .fill(Color(hex: "#00b4ff").opacity(0.12))
+                    .fill(Color.auroraBlue.opacity(0.12))
                     .frame(width: geo.size.width * 0.5, height: geo.size.width * 0.5)
                     .blur(radius: 70)
                     .offset(
