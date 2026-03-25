@@ -129,10 +129,12 @@ extension View {
                 }
             )
             .clipShape(
-                RoundedCorner(radius: topRadius, corners: [.topLeft, .topRight])
-            )
-            .clipShape(
-                RoundedCorner(radius: bottomRadius, corners: [.bottomLeft, .bottomRight])
+                UnevenRoundedRectangle(
+                    topLeadingRadius: topRadius,
+                    bottomLeadingRadius: bottomRadius,
+                    bottomTrailingRadius: bottomRadius,
+                    topTrailingRadius: topRadius
+                )
             )
     }
 }
@@ -140,7 +142,7 @@ extension View {
 // MARK: - Shimmer overlay
 
 struct ShimmerView: View {
-    @State private var offset: CGFloat = -1
+    @State private var isShimmering = false
 
     var body: some View {
         GeometryReader { geo in
@@ -152,26 +154,18 @@ struct ShimmerView: View {
                     )
                 )
                 .frame(width: geo.size.width * 0.4)
-                .offset(x: offset * geo.size.width)
+                .offset(x: isShimmering ? geo.size.width * 1.4 : -geo.size.width * 0.6)
         }
         .clipped()
         .allowsHitTesting(false)
         .onAppear {
-            // Initial delay so shimmer doesn't fire immediately
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                startShimmer()
+            withAnimation(
+                .linear(duration: 1.2)
+                .repeatForever(autoreverses: false)
+                .delay(3)
+            ) {
+                isShimmering = true
             }
-        }
-    }
-
-    private func startShimmer() {
-        offset = -0.6
-        withAnimation(.linear(duration: 1.2)) {
-            offset = 1.4
-        }
-        // Repeat every 3s
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            startShimmer()
         }
     }
 }
