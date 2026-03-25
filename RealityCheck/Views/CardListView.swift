@@ -66,6 +66,7 @@ struct CardListView: View {
             SectionLabel("📍 Widget hiện tại")
                 .opacity(appeared ? 1 : 0)
                 .offset(y: appeared ? 0 : 8)
+                .animation(.spring(duration: 0.4), value: appeared)
 
             NavigationLink(value: pinned) {
                 GlassCard(card: pinned, style: .pinned)
@@ -82,6 +83,7 @@ struct CardListView: View {
                 SectionLabel("Các card khác")
                     .padding(.top, 4)
                     .opacity(appeared ? 1 : 0)
+                    .animation(.spring(duration: 0.4).delay(0.03), value: appeared)
             }
 
             ForEach(Array(unpinnedCards.enumerated()), id: \.element.id) { index, card in
@@ -89,18 +91,15 @@ struct CardListView: View {
                     GlassCard(card: card, style: .unpinned)
                 }
                 .buttonStyle(.plain)
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                .contextMenu {
+                    Button { pinCard(card) } label: {
+                        Label("Pin lên widget", systemImage: "pin")
+                    }
                     Button(role: .destructive) {
                         modelContext.delete(card)
                     } label: {
                         Label("Xoá", systemImage: "trash")
                     }
-                }
-                .swipeActions(edge: .leading) {
-                    Button { pinCard(card) } label: {
-                        Label("Pin", systemImage: "pin")
-                    }
-                    .tint(.orange)
                 }
                 .opacity(appeared ? 1 : 0)
                 .offset(y: appeared ? 0 : 10)
