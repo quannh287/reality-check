@@ -13,7 +13,7 @@ struct FormulaEngineTests {
             value: 15_000_000, unit: "triệu",
             contextLine: "chi phí cố định"
         )
-        #expect(FormulaEngine.displayValue(for: card) == "15000000")
+        #expect(FormulaEngine.displayValue(for: card) == "15.000.000")
     }
 
     @Test("Manual card with nil value returns --")
@@ -62,7 +62,7 @@ struct FormulaEngineTests {
             inputA: 20_000_000, inputB: 15_000_000,
             unit: "triệu", contextLine: "dư hàng tháng"
         )
-        #expect(FormulaEngine.displayValue(for: card) == "5000000")
+        #expect(FormulaEngine.displayValue(for: card) == "5.000.000")
     }
 
     @Test("Countdown formula returns days until target")
