@@ -5,17 +5,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build & Test Commands
 
 ```bash
-# Build the app
 xcodebuild build -scheme RealityCheck -project RealityCheck.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
-
-# Run all tests
 xcodebuild test -scheme RealityCheck -project RealityCheck.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
-
-# Run a single test class
-xcodebuild test -scheme RealityCheck -project RealityCheck.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RealityCheckTests/FormulaEngineTests
-
-# Build the widget extension
-xcodebuild build -scheme RealityCheckWidget -project RealityCheck.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+xcodebuild test ... -only-testing:RealityCheckTests/FormulaEngineTests  # single test class
+xcodebuild build -scheme RealityCheckWidget ...  # widget target
 ```
 
 ## Architecture
@@ -52,10 +45,7 @@ RealityCheck/
 
 ### MVVM Pattern
 
-Views own `@Query` and `@Environment(\.modelContext)` (SwiftData requires these in Views). Business logic lives in `@Observable` ViewModels held as `@State`:
-- `CardFormViewModel` — all form fields as `var` properties; `init(card:)` populates from an existing card. Views bind to fields via `@Bindable var vm = viewModel` inside `body`.
-- `CardListViewModel` — pin/delete actions
-- `SettingsViewModel` — notification scheduling
+Views own `@Query` and `@Environment(\.modelContext)` (SwiftData requires these in Views). Business logic lives in `@Observable` ViewModels held as `@State`. Views bind to fields via `@Bindable var vm = viewModel` inside `body`.
 
 ### App ↔ Widget Data Sharing
 
@@ -70,23 +60,7 @@ After pinning/unpinning, always call `WidgetCenter.shared.reloadAllTimelines()`.
 `Core/Components/` implements the Aurora Liquid Glass aesthetic. `Core/Extensions/Color+Aurora.swift` defines the palette and `accentColor` extensions — each `FormulaType` maps to a color, which drives card tinting throughout the app and widget.
 
 Aurora palette (widget duplicates these as hardcoded hex strings in `RealityCheckEntry.accentColor`):
-- `.auroraRed` `#ff6b6b` — `.manual`
-- `.auroraTeal` `#64dfdf` — `.divide`
-- `.auroraPurple` `#c77dff` — `.count`
-- `.auroraYellow` `#ffd93d` — `.subtract`
-- `.auroraGreen` `#00f5a0` — `.countdown`
-
-### Testing
-
-Tests use Swift Testing (`@Suite`, `@Test`), not XCTest. Edge cases: divide-by-zero → `"∞"`, past-date countdown → `"0"`, nil inputs → `"--"`.
-
-### UI Language
-
-App UI text is in Vietnamese. Respond to the user in Vietnamese.
-
-### Localization
-
-UI strings dùng `Localizable.xcstrings` (String Catalog). Không hardcode chuỗi trực tiếp trong View — dùng `String(localized: "key")` hoặc `Text("key")` (SwiftUI tự resolve key từ catalog).
+`.auroraRed #ff6b6b` (manual) · `.auroraTeal #64dfdf` (divide) · `.auroraPurple #c77dff` (count) · `.auroraYellow #ffd93d` (subtract) · `.auroraGreen #00f5a0` (countdown)
 
 ### Xcode Project — PBXFileSystemSynchronizedRootGroup
 
@@ -96,11 +70,12 @@ Target `RealityCheck` dùng **`PBXFileSystemSynchronizedRootGroup`**: Xcode tự
 
 Worktree để làm việc song song nên đặt ở `worktrees/<tên-branch>` trong project root (đã có trong `.gitignore`). Không đặt worktree trong `.claude/worktrees/` — thư mục `.claude/` được git track nên worktree bên trong sẽ bị commit lên.
 
-**Sau khi merge xong, xoá worktree ngay:**
-```bash
-git worktree remove worktrees/<tên-branch>
-```
+**Sau khi merge xong, xoá worktree ngay:** `git worktree remove worktrees/<tên-branch>`
 
-### SourceKit False Positives trong Worktree
+SourceKit có thể báo lỗi giả (`Cannot find type`, `No such module`) trong worktree — dùng `xcodebuild` để xác nhận, không dựa vào SourceKit diagnostics.
 
-Khi worktree nằm bên trong project root (ví dụ `worktrees/feature-x/`), SourceKit của Xcode có thể báo lỗi giả (`Cannot find type`, `No such module`) cho các file trong worktree vì không có project context. Đây là **false positive** — dùng `xcodebuild` để xác nhận build thực tế, không dựa vào SourceKit diagnostics.
+## Conventions
+
+- **Tests**: Swift Testing (`@Suite`, `@Test`), không dùng XCTest. Edge cases: ÷0→`"∞"`, past date→`"0"`, nil→`"--"`.
+- **Language**: UI text bằng tiếng Việt. Respond to the user in Vietnamese.
+- **Localization**: Dùng `Localizable.xcstrings`. Không hardcode string — dùng `Text("key")` hoặc `String(localized: "key")`.
