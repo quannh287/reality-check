@@ -1,16 +1,39 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "widget.empty.context" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open app to create your first Reality Card" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Mở app để tạo Reality Card đầu tiên" } }
-      }
+    "Reality Check" : {
+
     },
     "widget.description" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Show Reality Card on home screen" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Hiện Reality Card trên home screen" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Reality Card on home screen"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiện Reality Card trên home screen"
+          }
+        }
+      }
+    },
+    "widget.empty.context" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open app to create your first Reality Card"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mở app để tạo Reality Card đầu tiên"
+          }
+        }
       }
     }
   },

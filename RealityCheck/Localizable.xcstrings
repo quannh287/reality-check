@@ -1,311 +1,843 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
+    ":" : {
+
+    },
+    "A" : {
+
+    },
     "app.title" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reality Check" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Reality Check" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reality Check"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reality Check"
+          }
+        }
       }
     },
-    "card.list.section.pinned" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pinned" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đã ghim" } }
-      }
-    },
-    "card.list.section.all" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "All Cards" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Tất cả thẻ" } }
-      }
-    },
-    "card.list.empty.headline" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Reality Cards yet" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Chưa có Reality Card nào" } }
-      }
-    },
-    "card.list.empty.subheadline" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create your first card to\nface reality" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Tạo card đầu tiên để\nđối diện thực tế" } }
-      }
-    },
-    "card.list.empty.cta" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "＋ Create first card" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "＋ Tạo card đầu tiên" } }
-      }
-    },
-    "card.list.action.pin" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pin to widget" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Pin lên widget" } }
-      }
-    },
-    "card.list.action.delete" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Xoá" } }
-      }
-    },
-    "card.form.title.create" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create Card" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Tạo Card" } }
-      }
-    },
-    "card.form.title.edit" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Edit Card" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Sửa Card" } }
-      }
+    "B" : {
+
     },
     "card.form.action.cancel" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Huỷ" } }
-      }
-    },
-    "card.form.action.save" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Lưu" } }
-      }
-    },
-    "card.form.section.info" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Info" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thông tin" } }
-      }
-    },
-    "card.form.field.title" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Title" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Tiêu đề" } }
-      }
-    },
-    "card.form.type.manual" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manual" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Manual" } }
-      }
-    },
-    "card.form.type.formula" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Formula" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Formula" } }
-      }
-    },
-    "card.form.section.value" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Value" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Giá trị" } }
-      }
-    },
-    "card.form.field.value" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Number" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Số liệu" } }
-      }
-    },
-    "card.form.section.formula" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Formula" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Công thức" } }
-      }
-    },
-    "card.form.section.inputs" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Inputs" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Inputs" } }
-      }
-    },
-    "card.form.section.display" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Display" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Hiển thị" } }
-      }
-    },
-    "card.form.field.unit" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unit (days, months, M...)" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đơn vị (ngày, tháng, triệu...)" } }
-      }
-    },
-    "card.form.field.context" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Context line" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Context line" } }
-      }
-    },
-    "card.form.field.label.a" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Name (e.g. Revenue)" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Tên (VD: Doanh số)" } }
-      }
-    },
-    "card.form.field.label.b" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Name (e.g. Target)" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Tên (VD: Mục tiêu)" } }
-      }
-    },
-    "card.form.field.value.placeholder" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Value" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Giá trị" } }
-      }
-    },
-    "card.form.field.target.date" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Target date" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Ngày đích" } }
-      }
-    },
-    "card.form.countdown.remaining %@" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "→ %@ days remaining" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "→ %@ ngày còn lại" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Huỷ"
+          }
+        }
       }
     },
     "card.form.action.pin" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pin to widget" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Pin lên widget" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin to widget"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin lên widget"
+          }
+        }
+      }
+    },
+    "card.form.action.save" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lưu"
+          }
+        }
       }
     },
     "card.form.action.unpin" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unpin" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bỏ pin" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpin"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bỏ pin"
+          }
+        }
+      }
+    },
+    "card.form.countdown.remaining %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "→ %@ days remaining"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "→ %@ ngày còn lại"
+          }
+        }
+      }
+    },
+    "card.form.field.context" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Context line"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Context line"
+          }
+        }
+      }
+    },
+    "card.form.field.label.a" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name (e.g. Revenue)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tên (VD: Doanh số)"
+          }
+        }
+      }
+    },
+    "card.form.field.label.b" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name (e.g. Target)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tên (VD: Mục tiêu)"
+          }
+        }
+      }
+    },
+    "card.form.field.target.date" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target date"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ngày đích"
+          }
+        }
+      }
+    },
+    "card.form.field.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiêu đề"
+          }
+        }
+      }
+    },
+    "card.form.field.unit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unit (days, months, M...)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đơn vị (ngày, tháng, triệu...)"
+          }
+        }
+      }
+    },
+    "card.form.field.value" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Số liệu"
+          }
+        }
+      }
+    },
+    "card.form.field.value.placeholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giá trị"
+          }
+        }
       }
     },
     "card.form.preview.label" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Live preview" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Live preview" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live preview"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live preview"
+          }
+        }
       }
     },
     "card.form.preview.section" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Preview" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Preview" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview"
+          }
+        }
       }
     },
-    "settings.title" : {
+    "card.form.section.display" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Settings" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cài đặt" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiển thị"
+          }
+        }
       }
     },
-    "settings.notification.section" : {
+    "card.form.section.formula" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Daily Notification" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thông báo hàng ngày" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formula"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Công thức"
+          }
+        }
       }
     },
-    "settings.notification.toggle.title" : {
+    "card.form.section.info" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable notifications" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bật thông báo" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Info"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thông tin"
+          }
+        }
       }
     },
-    "settings.notification.toggle.subtitle" : {
+    "card.form.section.inputs" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Daily Reality Card reminder" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Nhắc nhở Reality Card mỗi ngày" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inputs"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inputs"
+          }
+        }
       }
     },
-    "settings.notification.time.title" : {
+    "card.form.section.value" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminder time" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thời gian nhắc" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giá trị"
+          }
+        }
       }
     },
-    "settings.notification.time.subtitle" : {
+    "card.form.title.create" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Every day at" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Mỗi ngày vào lúc" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Card"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tạo Card"
+          }
+        }
       }
     },
-    "settings.notification.status.on %@" : {
+    "card.form.title.edit" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Scheduled · Every day at %@" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đã lên lịch · Mỗi ngày %@" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Card"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sửa Card"
+          }
+        }
       }
     },
-    "settings.notification.status.off" : {
+    "card.form.type.formula" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Notifications disabled" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thông báo đã tắt" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formula"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formula"
+          }
+        }
       }
     },
-    "settings.widget.section" : {
+    "card.form.type.manual" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Widget" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Widget" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manual"
+          }
+        }
       }
     },
-    "settings.widget.showing" : {
+    "card.list.action.delete" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Showing" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đang hiển thị" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xoá"
+          }
+        }
       }
     },
-    "settings.widget.refresh" : {
+    "card.list.action.pin" : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Refresh widget" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Làm mới widget" } }
-      }
-    },
-    "settings.widget.refresh.action" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Refresh ↺" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Làm mới ↺" } }
-      }
-    },
-    "notification.title" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reality Check" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Reality Check" } }
-      }
-    },
-    "notification.body.format" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "%1$@ %2$@ — %3$@" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "%1$@ %2$@ — %3$@" } }
-      }
-    },
-    "notification.body.empty" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open app to create your first Reality Card" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Mở app để tạo Reality Card đầu tiên" } }
-      }
-    },
-    "card.list.alert.delete.title" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete card?" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Xoá thẻ?" } }
-      }
-    },
-    "card.list.alert.delete.message" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "This action cannot be undone." } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Hành động này không thể hoàn tác." } }
-      }
-    },
-    "card.list.action.unpin" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unpin" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Bỏ ghim" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin to widget"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin lên widget"
+          }
+        }
       }
     },
     "card.list.action.pin.short" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pin" } },
-        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Ghim" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ghim"
+          }
+        }
       }
+    },
+    "card.list.action.unpin" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpin"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bỏ ghim"
+          }
+        }
+      }
+    },
+    "card.list.alert.delete.message" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hành động này không thể hoàn tác."
+          }
+        }
+      }
+    },
+    "card.list.alert.delete.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete card?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xoá thẻ?"
+          }
+        }
+      }
+    },
+    "card.list.empty.cta" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "＋ Create first card"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "＋ Tạo card đầu tiên"
+          }
+        }
+      }
+    },
+    "card.list.empty.headline" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Reality Cards yet"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa có Reality Card nào"
+          }
+        }
+      }
+    },
+    "card.list.empty.subheadline" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create your first card to\nface reality"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tạo card đầu tiên để\nđối diện thực tế"
+          }
+        }
+      }
+    },
+    "card.list.section.all" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Cards"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tất cả thẻ"
+          }
+        }
+      }
+    },
+    "card.list.section.pinned" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinned"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã ghim"
+          }
+        }
+      }
+    },
+    "notification.body.empty" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open app to create your first Reality Card"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mở app để tạo Reality Card đầu tiên"
+          }
+        }
+      }
+    },
+    "notification.body.format" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@ — %3$@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@ — %3$@"
+          }
+        }
+      }
+    },
+    "notification.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reality Check"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reality Check"
+          }
+        }
+      }
+    },
+    "off" : {
+
+    },
+    "on" : {
+
+    },
+    "settings.notification.section" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Notification"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thông báo hàng ngày"
+          }
+        }
+      }
+    },
+    "settings.notification.status.off" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications disabled"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thông báo đã tắt"
+          }
+        }
+      }
+    },
+    "settings.notification.status.on %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled · Every day at %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã lên lịch · Mỗi ngày %@"
+          }
+        }
+      }
+    },
+    "settings.notification.time.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every day at"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mỗi ngày vào lúc"
+          }
+        }
+      }
+    },
+    "settings.notification.time.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminder time"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thời gian nhắc"
+          }
+        }
+      }
+    },
+    "settings.notification.toggle.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daily Reality Card reminder"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhắc nhở Reality Card mỗi ngày"
+          }
+        }
+      }
+    },
+    "settings.notification.toggle.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable notifications"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bật thông báo"
+          }
+        }
+      }
+    },
+    "settings.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cài đặt"
+          }
+        }
+      }
+    },
+    "settings.widget.refresh" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh widget"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Làm mới widget"
+          }
+        }
+      }
+    },
+    "settings.widget.refresh.action" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh ↺"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Làm mới ↺"
+          }
+        }
+      }
+    },
+    "settings.widget.section" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget"
+          }
+        }
+      }
+    },
+    "settings.widget.showing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Showing"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đang hiển thị"
+          }
+        }
+      }
+    },
+    "Toggle" : {
+
     }
   },
   "version" : "1.0"
