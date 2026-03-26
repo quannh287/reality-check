@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.3.app
+
+      - name: Build RealityCheck
+        run: |
+          xcodebuild build \
+            -scheme RealityCheck \
+            -project RealityCheck.xcodeproj \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            | xcpretty || exit ${PIPESTATUS[0]}
+
+      - name: Build RealityCheckWidget
+        run: |
+          xcodebuild build \
+            -scheme RealityCheckWidget \
+            -project RealityCheck.xcodeproj \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            | xcpretty || exit ${PIPESTATUS[0]}
