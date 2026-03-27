@@ -1,4 +1,4 @@
-// RealityCheck/RealityCheckApp.swift
+// RealityCheck/App/RealityCheckApp.swift
 import SwiftUI
 import SwiftData
 #if DEBUG
@@ -7,6 +7,21 @@ import DebugSwift
 
 @main
 struct RealityCheckApp: App {
+    #if targetEnvironment(macCatalyst)
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #endif
+
+    @State private var selectedCard: RealityCard?
+    @State private var columnVisibility: NavigationSplitViewVisibility = .automatic
+    @State private var appState = AppState()
+
+    private let sharedContainer: ModelContainer = {
+        try! ModelContainer(
+            for: RealityCard.self,
+            configurations: AppGroupContainer.modelConfiguration
+        )
+    }()
+
     init() {
         NotificationService.requestPermission()
         #if DEBUG
@@ -15,19 +30,28 @@ struct RealityCheckApp: App {
     }
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: "main") {
             ZStack {
                 AuroraBackground()
-                CardSidebarView(selection: .constant(nil))
+                NavigationSplitView(columnVisibility: $columnVisibility) {
+                    CardSidebarView(selection: $selectedCard)
+                } detail: {
+                    CardDetailView(selection: selectedCard)
+                }
             }
             .preferredColorScheme(.dark)
+            .environment(appState)
         }
-        .modelContainer(
-            try! ModelContainer(
-                for: RealityCard.self,
-                configurations: AppGroupContainer.modelConfiguration
-            )
-        )
+        .modelContainer(sharedContainer)
+
+        #if targetEnvironment(macCatalyst)
+        MenuBarExtra("Reality Check", systemImage: "pin.circle.fill") {
+            MenuBarCardView()
+                .modelContainer(sharedContainer)
+                .environment(appState)
+        }
+        .menuBarExtraStyle(.window)
+        #endif
     }
 
     #if DEBUG
