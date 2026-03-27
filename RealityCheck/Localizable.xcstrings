@@ -29,6 +29,22 @@
     "B" : {
 
     },
+    "card.detail.placeholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a card to view"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn một card để xem"
+          }
+        }
+      }
+    },
     "card.form.action.cancel" : {
       "localizations" : {
         "en" : {
