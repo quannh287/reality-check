@@ -61,7 +61,7 @@ import SwiftData
     container.mainContext.insert(luong)
     return ZStack {
         AuroraBackground()
-        CardListView()
+        CardSidebarView(selection: .constant(nil))
     }
     .modelContainer(container)
     .preferredColorScheme(.dark)
@@ -93,7 +93,7 @@ import SwiftData
     container.mainContext.insert(unpinned)
     return ZStack {
         AuroraBackground()
-        CardListView()
+        CardSidebarView(selection: .constant(nil))
     }
     .modelContainer(container)
     .preferredColorScheme(.dark)
@@ -102,7 +102,7 @@ import SwiftData
 #Preview("Trống") {
     ZStack {
         AuroraBackground()
-        CardListView()
+        CardSidebarView(selection: .constant(nil))
     }
     .modelContainer(for: RealityCard.self, inMemory: true)
     .preferredColorScheme(.dark)

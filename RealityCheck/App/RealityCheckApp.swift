@@ -18,7 +18,7 @@ struct RealityCheckApp: App {
         WindowGroup {
             ZStack {
                 AuroraBackground()
-                CardListView()
+                CardSidebarView(selection: .constant(nil))
             }
             .preferredColorScheme(.dark)
         }
