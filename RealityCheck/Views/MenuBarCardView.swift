@@ -2,6 +2,8 @@
 import SwiftUI
 import SwiftData
 
+// MenuBarCardView is only instantiated on macOS via MenuBarExtra in RealityCheckApp.
+// No #if targetEnvironment guard is needed here — the instantiation site is already guarded.
 struct MenuBarCardView: View {
     @Environment(AppState.self) private var appState
     @Environment(\.openWindow) private var openWindow
@@ -83,7 +85,11 @@ struct MenuBarCardView: View {
                 .opacity(0.2)
 
             Button {
+                #if targetEnvironment(macCatalyst)
+                UIApplication.shared.perform(NSSelectorFromString("terminate:"), with: nil, afterDelay: 0)
+                #else
                 exit(0)
+                #endif
             } label: {
                 Label("menubar.action.quit", systemImage: "power")
                     .font(.system(size: 12, weight: .medium))
