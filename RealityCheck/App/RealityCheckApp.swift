@@ -45,7 +45,7 @@ struct RealityCheckApp: App {
         .modelContainer(sharedContainer)
 
         #if targetEnvironment(macCatalyst)
-        MenuBarExtra("Reality Check", systemImage: "pin.circle.fill") {
+        MenuBarExtra(String(localized: "app.title"), systemImage: "pin.circle.fill") {
             MenuBarCardView()
                 .modelContainer(sharedContainer)
                 .environment(appState)
