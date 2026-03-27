@@ -45,7 +45,9 @@ line_length: 120
 
 SwiftLint chạy tự động trong bước `xcodebuild build` hiện có (qua SPM plugin) — không cần job riêng hay bước install thêm.
 
-**Lưu ý xcpretty:** CI hiện pipe qua `xcpretty`, vốn có thể suppress một số output của SwiftLint plugin. Warnings sẽ không hiện trong CI logs, nhưng errors (violations configured as errors) vẫn làm build fail qua exit code. Để thấy đầy đủ SwiftLint output trong CI, bỏ `| xcpretty` trong build step hoặc dùng `xcpretty --report junit`.
+**Lưu ý xcpretty:** CI hiện pipe qua `xcpretty`, vốn có thể suppress một số output của SwiftLint plugin. Warnings sẽ không hiện trong CI logs, nhưng errors vẫn làm build fail qua exit code. Để thấy đầy đủ SwiftLint output trong CI, bỏ `| xcpretty` trong build step hoặc dùng `xcpretty --report junit`.
+
+**Bug CI cần fix:** `build.yml` hiện dùng `-scheme RealityCheckWidget` nhưng shared scheme thực tế là `RealityCheckWidgetExtension`. Implementation phải sửa thành `-scheme RealityCheckWidgetExtension` để widget target (và SwiftLint plugin của nó) thực sự chạy trong CI.
 
 ## Data Flow
 
@@ -61,6 +63,7 @@ xcodebuild build
 | File | Thay đổi |
 |------|----------|
 | `RealityCheck.xcodeproj/project.pbxproj` | Thêm SPM package + plugin reference cho targets `RealityCheck` và `RealityCheckWidgetExtension` |
+| `.github/workflows/build.yml` | Sửa `-scheme RealityCheckWidget` → `-scheme RealityCheckWidgetExtension` |
 | `RealityCheck.xcodeproj/.../Package.resolved` | Lock SwiftLint version |
 | `.swiftlint.yml` | Config mới ở project root |
 
