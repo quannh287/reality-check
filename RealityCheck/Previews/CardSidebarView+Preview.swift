@@ -40,9 +40,9 @@ import SwiftData
         AuroraBackground()
         CardSidebarView(selection: .constant(nil))
     }
+    .preferredColorScheme(.dark)
     .modelContainer(container)
     .environment(AppState())
-    .preferredColorScheme(.dark)
 }
 
 #Preview("Sidebar — empty") {
