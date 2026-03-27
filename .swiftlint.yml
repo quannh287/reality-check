@@ -1,0 +1,14 @@
+disabled_rules:
+  - trailing_whitespace
+  - todo
+
+opt_in_rules:
+  - empty_count
+  # - force_unwrapping  # bật sau khi kiểm tra số violations hiện có
+
+excluded:
+  - RealityCheckTests
+  - RealityCheckUITests
+  - worktrees
+
+line_length: 120

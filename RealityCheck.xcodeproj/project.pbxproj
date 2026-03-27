@@ -188,6 +188,9 @@
 				5A9076CC2F7141A80026035B /* RealityCheck */,
 			);
 			name = RealityCheck;
+			packagePluginDependencies = (
+				787A9E8DBB28462DB5CB7633 /* SwiftLintBuildToolPlugin */,
+			);
 			packageProductDependencies = (
 				95D755F3518F4EAF8F5E7EC9 /* DebugSwift */,
 			);
@@ -257,6 +260,9 @@
 				5A90770E2F7142230026035B /* RealityCheckWidget */,
 			);
 			name = RealityCheckWidgetExtension;
+			packagePluginDependencies = (
+				5E3002E1323248E6A543E271 /* SwiftLintBuildToolPlugin */,
+			);
 			packageProductDependencies = (
 			);
 			productName = RealityCheckWidgetExtension;
@@ -310,6 +316,7 @@
 			);
 			packageReferences = (
 				F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */,
+				F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			projectRoot = "";
 			targets = (
@@ -410,6 +417,14 @@
 				revision = dcab247caa279bc039513909742f0664c67035d1;
 			};
 		};
+		F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.57.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -417,6 +432,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */;
 			productName = DebugSwift;
+		};
+		787A9E8DBB28462DB5CB7633 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = SwiftLintBuildToolPlugin;
+		};
+		5E3002E1323248E6A543E271 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = SwiftLintBuildToolPlugin;
 		};
 /* End XCSwiftPackageProductDependency section */
 

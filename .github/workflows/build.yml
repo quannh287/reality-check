@@ -22,12 +22,14 @@ jobs:
             -scheme RealityCheck \
             -project RealityCheck.xcodeproj \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -skipPackagePluginValidation \
             | xcpretty || exit ${PIPESTATUS[0]}
 
       - name: Build RealityCheckWidget
         run: |
           xcodebuild build \
-            -scheme RealityCheckWidget \
+            -scheme RealityCheckWidgetExtension \
             -project RealityCheck.xcodeproj \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -skipPackagePluginValidation \
             | xcpretty || exit ${PIPESTATUS[0]}
