@@ -64,6 +64,7 @@ import SwiftData
         CardSidebarView(selection: .constant(nil))
     }
     .modelContainer(container)
+    .environment(AppState())
     .preferredColorScheme(.dark)
 }
 
@@ -96,6 +97,7 @@ import SwiftData
         CardSidebarView(selection: .constant(nil))
     }
     .modelContainer(container)
+    .environment(AppState())
     .preferredColorScheme(.dark)
 }
 
@@ -105,5 +107,6 @@ import SwiftData
         CardSidebarView(selection: .constant(nil))
     }
     .modelContainer(for: RealityCard.self, inMemory: true)
+    .environment(AppState())
     .preferredColorScheme(.dark)
 }

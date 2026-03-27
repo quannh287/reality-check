@@ -11,8 +11,6 @@ struct CardSidebarView: View {
     @State private var showingCreateForm = false
     @State private var appeared = false
     @State private var cardToDelete: RealityCard? = nil
-    @Namespace private var namespace
-
     private var pinnedCard: RealityCard? { cards.first(where: \.isPinned) }
     private var unpinnedCards: [RealityCard] { cards.filter { !$0.isPinned } }
 
@@ -38,12 +36,12 @@ struct CardSidebarView: View {
             .toolbarBackground(.hidden, for: .navigationBar)
             #endif
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .automatic) {
                     NavigationLink(destination: SettingsView()) {
                         Image(systemName: "gearshape")
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .automatic) {
                     Button { showingCreateForm = true } label: {
                         Image(systemName: "plus")
                             .fontWeight(.semibold)
