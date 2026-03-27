@@ -10,6 +10,7 @@
 		5A90770B2F7142230026035B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A90770A2F7142230026035B /* WidgetKit.framework */; };
 		5A90770D2F7142230026035B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A90770C2F7142230026035B /* SwiftUI.framework */; };
 		5A90771A2F7142240026035B /* RealityCheckWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5A9077082F7142230026035B /* RealityCheckWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5AB3283B2F765A36001B409A /* DebugSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 95D755F3518F4EAF8F5E7EC9 /* DebugSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		5A9077082F7142230026035B /* RealityCheckWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RealityCheckWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A90770A2F7142230026035B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		5A90770C2F7142230026035B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		5AB328642F765A36001B409A /* RealityCheck.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = RealityCheck.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -101,6 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AB3283B2F765A36001B409A /* DebugSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +170,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5AB328652F765A36001B409A /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -188,9 +196,6 @@
 				5A9076CC2F7141A80026035B /* RealityCheck */,
 			);
 			name = RealityCheck;
-			packagePluginDependencies = (
-				787A9E8DBB28462DB5CB7633 /* SwiftLintBuildToolPlugin */,
-			);
 			packageProductDependencies = (
 				95D755F3518F4EAF8F5E7EC9 /* DebugSwift */,
 			);
@@ -260,9 +265,6 @@
 				5A90770E2F7142230026035B /* RealityCheckWidget */,
 			);
 			name = RealityCheckWidgetExtension;
-			packagePluginDependencies = (
-				5E3002E1323248E6A543E271 /* SwiftLintBuildToolPlugin */,
-			);
 			packageProductDependencies = (
 			);
 			productName = RealityCheckWidgetExtension;
@@ -305,18 +307,22 @@
 			);
 			mainGroup = 5A9076C12F7141A80026035B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */,
+				F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5A9076CB2F7141A80026035B /* Products */;
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 5AB328652F765A36001B409A /* Products */;
+					ProjectRef = 5AB328642F765A36001B409A /* RealityCheck.xcodeproj */;
+				},
+				{
 					ProductGroup = 5A0079E42F73E3020076ECB1 /* Products */;
 					ProjectRef = 5A0079E22F73E3020076ECB1 /* RealityCheck.xcodeproj */;
 				},
-			);
-			packageReferences = (
-				F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */,
-				F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			projectRoot = "";
 			targets = (
@@ -407,43 +413,6 @@
 			targetProxy = 5A9077182F7142240026035B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/DebugSwift/DebugSwift";
-			requirement = {
-				kind = revision;
-				revision = dcab247caa279bc039513909742f0664c67035d1;
-			};
-		};
-		F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/SwiftLint";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.57.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		95D755F3518F4EAF8F5E7EC9 /* DebugSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */;
-			productName = DebugSwift;
-		};
-		787A9E8DBB28462DB5CB7633 /* SwiftLintBuildToolPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = SwiftLintBuildToolPlugin;
-		};
-		5E3002E1323248E6A543E271 /* SwiftLintBuildToolPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = SwiftLintBuildToolPlugin;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5A9076EB2F7141AA0026035B /* Debug */ = {
@@ -573,6 +542,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleLocalizations = "en vi";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -617,6 +587,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleLocalizations = "en vi";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -868,6 +839,33 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DebugSwift/DebugSwift";
+			requirement = {
+				kind = revision;
+				revision = dcab247caa279bc039513909742f0664c67035d1;
+			};
+		};
+		F4E54217D5BF435194F51ACC /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.57.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		95D755F3518F4EAF8F5E7EC9 /* DebugSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F3A5D6AD2E67424E87133DBA /* XCRemoteSwiftPackageReference "DebugSwift" */;
+			productName = DebugSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5A9076C22F7141A80026035B /* Project object */;
 }
