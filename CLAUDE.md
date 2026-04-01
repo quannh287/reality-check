@@ -5,10 +5,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build & Test Commands
 
 ```bash
+# Build app
 xcodebuild build -scheme RealityCheck -project RealityCheck.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+# Run all tests
 xcodebuild test -scheme RealityCheck -project RealityCheck.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
-xcodebuild test ... -only-testing:RealityCheckTests/FormulaEngineTests  # single test class
-xcodebuild build -scheme RealityCheckWidget ...  # widget target
+# Single test class
+xcodebuild test -scheme RealityCheck -project RealityCheck.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:RealityCheckTests/FormulaEngineTests
+# Build widget extension
+xcodebuild build -scheme RealityCheckWidget -project RealityCheck.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+# Lint
+swiftlint lint
 ```
 
 ## Architecture
@@ -79,3 +85,4 @@ SourceKit có thể báo lỗi giả (`Cannot find type`, `No such module`) tron
 - **Tests**: Swift Testing (`@Suite`, `@Test`), không dùng XCTest. Edge cases: ÷0→`"∞"`, past date→`"0"`, nil→`"--"`.
 - **Language**: UI text bằng tiếng Việt. Respond to the user in Vietnamese.
 - **Localization**: Dùng `Localizable.xcstrings`. Không hardcode string — dùng `Text("key")` hoặc `String(localized: "key")`.
+- **Linting**: SwiftLint configured in `.swiftlint.yml` (line length 120, disabled: trailing_whitespace/todo). Run `swiftlint lint` before committing.
